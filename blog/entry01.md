@@ -95,7 +95,7 @@ I’m also in the process of brainstorming what the game will actually look like
 
 - **Problem Solving & Decision Making:** When I was choosing between Kaboom.js and other tools, I had to figure out which one would work best for my game. I had to think about what features I needed, how easy the tool was to learn, and how much help was available (like tutorials). I also ran into some problems while testing things out with Kaboom.js, but I was able to solve them by reading through the docs or trying different code until it worked.
 
--** Managing Time:** Learning Kaboom.js and experimenting with it means I’ve had to manage my time better. I’ve learned how to break things down into smaller steps, like first getting an object to move, then adding more complicated things like collisions. Being able to organize my work like this will help me stay on track when I start building the actual game.
+- **Managing Time:** Learning Kaboom.js and experimenting with it means I’ve had to manage my time better. I’ve learned how to break things down into smaller steps, like first getting an object to move, then adding more complicated things like collisions. Being able to organize my work like this will help me stay on track when I start building the actual game.
 
 - **Creative Thinking:** While brainstorming ideas for my game, I’ve started thinking about things like how the game will play, how to make it fun, and what the game should look like. I haven’t nailed down all the details yet, but this creative thinking will help me design a game that’s cool and challenging for players.
 
