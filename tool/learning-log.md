@@ -619,6 +619,251 @@ This is an efficient way to remove all bombs at once, rather than manually destr
     });
  ```
 
+### 11/17/2025
+`uvquad(w, h)` → UVQuadComp
+
+**What it does:** Basically, this is like drawing a full-screen rectangle and then adding some cool visual effects (shaders) to it. Think of it like a canvas for your effects.
+
+**What you can do:**
+
+- Make the screen have a crazy effect, like a spiral or wavy distortion.
+-Use it to add effects to a quad or background.
+
+Example: Fullscreen Spiral Effect
+
+``` js 
+add([
+    uvquad(width(), height()),  // Make the quad the same size as the screen
+    shader("spiral"),  // Apply the spiral effect to the quad
+])
+
+``` 
+What happens here:
+- You’ve got a quad that fills the screen.
+- It looks like a spiral is spinning in the background!
+
+`area()` → AreaComp
+
+**What it does:** This adds collisions to your objects, so you can detect when something hits something else. It’s like a force field around your object that says, “Hey, I’m here, and I’m ready to interact!”
+
+**What you can do:**
+
+- Make the player bounce off walls.
+- Detect when a player hits an enemy or an object, and then do something about it.
+
+Example 1: Player Dies When Hitting a Tree
+``` js 
+const player = add([
+    sprite("bean"),
+    area(),  // Make the bean able to collide with other stuff
+])
+
+player.onCollide("tree", () => {
+    destroy(player)  // Destroy player when it touches a tree
+    go("lose")  // Show "lose" scene after death
+})
+```
+
+What happens here:
+- The player (bean) dies when it touches a tree.
+- After that, it switches to a "lose" screen.
+
+Example 2: Increase Score on Collision
+``` js 
+player.onUpdate(() => {
+    if (player.isColliding(enemy)) {
+        score += 1  // Add to score if player touches an enemy
+    }
+})
+```
+**What happens here:**  Every time the player hits an enemy, the score goes up.
+
+`area(options)` → AreaComp
+
+**What it does:** This is like the previous one, but now you can customize how the collision area looks. You can make it bigger, smaller, or even change its shape!
+
+**What you can do:**
+
+- Make the player’s hitbox smaller than their sprite (so it’s more forgiving when they’re close to walls).
+- Use a triangle or other weird shapes for collisions instead of just a box.
+
+Example 1: Smaller Collision Area
+``` js 
+add([
+    sprite("flower"),
+    area({ scale: 0.6 }),  // Make the collision area smaller (60% of the sprite)
+    anchor("center"),  // Anchor the sprite from its center
+])
+```
+
+**What happens here:** The flower’s collision area is smaller than the sprite. It’s like the sprite has a smaller hitbox.
+
+Example 2: Custom Polygon Collision
+``` js 
+add([
+    sprite("bean"),
+    area({ shape: new Polygon([vec2(0), vec2(100), vec2(-100, 100)]) }),  // Make the collision a triangle
+])
+```
+
+**What happens here:** The bean has a triangle-shaped collider instead of a box. Super useful if your sprite is a weird shape!
+
+### 11/18/2025
+`anchor(o)` → AnchorComp
+
+**What it does:** This sets the anchor point of the object. This is like saying, “Where do I want my object to rotate from?” It’s the point in the object where everything happens (rotation, scaling, etc.).
+
+**What you can do:**
+
+- Make the object rotate from its center instead of the top-left corner.
+- Position things like text or UI elements in the center of the screen.
+
+Example 1: Rotating From Center
+```
+add([
+    rect(40, 10),  // Create a rectangle (40x10)
+    rotate(45),  // Rotate by 45 degrees
+    anchor("center"),  // Rotate it from its center
+])
+```
+**What happens here:** The rectangle rotates from the center. If you didn’t set the anchor to "center", it would rotate from the top-left corner.
+
+Example 2: Center UI Text
+```
+add([
+    text("Score: 0"),
+    pos(width() / 2, height() / 2),  // Center the text in the middle of the screen
+    anchor("center"),  // Anchor the text to the center of the screen
+])
+```
+**What happens here:** The score text is centered in the middle of the screen, no matter the screen size.
+
+`z(n)` → ZComp
+
+**What it does:** This controls the layering of objects. Objects with a higher z value get drawn on top of objects with a lower z value. It’s like stacking cards — the higher you go, the closer to the top of the stack!
+
+**What you can do:**
+
+- Make sure UI elements (like score) are always on top.
+- Control the order of things being drawn, like a background, then enemies, then player, etc.
+
+Example: Cloud Above Everything
+``` js 
+add([
+    sprite("cloud"),
+    z(100),  // Make sure the cloud is on top of other things
+])
+```
+
+**What happens here:** The cloud is drawn above everything else that has a lower z value. So it’ll always appear on top!
+
+### 11/19/2025
+`outline(width?, color?)` → OutlineComp
+
+**What it does:** This adds a border (outline) around an object to make it stand out. You can set the outline to any color or size you want!
+
+**What you can do:**
+
+- Make objects pop out more visually.
+- Create glowing or neon effects by using bright colors.
+
+Example: Text with Outline
+``` js 
+add([
+    text("hello"),
+    outline(4, rgb(0, 0, 0)),  // Black outline with a width of 4px
+])
+```
+
+**What happens here:**  The text “hello” has a black outline around it, making it easier to see.
+
+`body(options?)` → BodyComp
+
+**What it does:** This adds physics to your object, like gravity, jumping, and collisions. It makes the object fall, jump, and interact with other objects physically.
+
+**What you can do:** 
+- Add jumping to your player.
+- Make objects affected by gravity (fall to the ground).
+
+Example: Player Jumping
+``` js
+const bean = add([
+    sprite("bean"),
+    pos(),  // Position the player
+    area(),  // Enable collision detection
+    body(),  // Add gravity and physics
+])
+
+onKeyPress("space", () => {
+    if (bean.isGrounded()) {  // Check if bean is on the ground
+        bean.jump()  // Make the player jump
+    }
+})
+```
+**What happens here:** The bean can jump when you press the space bar, but only if it’s standing on the ground!
+
+### 11/20/2025
+`doubleJump(numJumps?)` → DoubleJumpComp
+
+**What it does:** This lets your player double jump — jump once in the air and then again before hitting the ground.
+
+**What you can do:**
+
+- Make the player’s jump mechanic more fun and dynamic.
+- Control the number of mid-air jumps.
+
+Example: Double Jump
+``` js 
+add([
+    sprite("bean"),
+    pos(),
+    area(),
+    body(),
+    doubleJump(2),  // Allow the player to jump twice
+])
+```
+
+**What happens here:**  The bean can jump twice in mid-air before it has to touch the ground.
+
+`move(direction, speed)` → EmptyComp
+
+**What it does:** Makes an object move constantly in a given direction at a certain speed. This is perfect for things like bullets, enemies, or any object that needs to move automatically.
+
+**What you can do:**
+- Make bullets fly straight at an enemy.
+- Make an enemy move toward the player.
+
+Example: Bullet Firing at Enemy
+``` js 
+add([
+    sprite("bullet"),
+    pos(player.pos),  // Start the bullet at the player's position
+    move(player.pos.angle(enemy.pos), 1200),  // Move towards the enemy at speed 1200
+    offscreen({ destroy: true }),  // Destroy the bullet when it leaves the screen
+])
+```
+
+**What happens here:** A bullet is fired from the player and moves towards the enemy at speed 1200. It disappears when it goes off-screen.
+
+### 11/21/2025
+`offscreen(options?)` → OffScreenComp
+
+**What it does:** Defines what happens when an object goes off the screen. You can have it destroyed, reset, or do something else.
+
+**What you can do:**
+
+- Automatically remove bullets or objects once they leave the screen.
+- Keep the game from being cluttered with off-screen objects.
+
+Example: Destroy Bullet Off-Screen
+``` js
+add([
+    sprite("bullet"),
+    offscreen({ destroy: true }),  // Destroy the bullet once it leaves the screen
+])
+```
+
+**What happens here:** The bullet is destroyed as soon as it goes off the screen, so it doesn’t stay around forever.
 
 <!-- 
 https://jsbin.com/gemawinofa/edit?html,js,console,output
