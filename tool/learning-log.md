@@ -865,6 +865,116 @@ add([
 
 **What happens here:** The bullet is destroyed as soon as it goes off the screen, so it doesn’t stay around forever.
 
+### 12/1/2025
+
+ `follow(obj: GameObj | null, offset?: Vec2) => FollowComp`
+
+#### **What It Does:**
+This function makes one object follow another in your game. So like, if you want a camera to follow the player’s character, you’d use this. You can also set an **offset** if you want the follower object to be a little bit to the side or above the target.
+
+#### **Parameters:**
+
+- **`obj: GameObj | null`**:
+  - This is the thing your object will follow (like another character or object). If you pass `null`, it means the object won’t follow anyone anymore.
+  
+- **`offset?: Vec2`** (optional):
+  - This is like a "shift" in position. If you want the camera to follow the player but be higher or to the side, you can set this offset.
+
+#### **How to Use It:**
+
+```javascript
+// Let's say we have a player and a camera:
+
+const player = new GameObj(); // The player character
+const camera = new GameObj(); // The camera
+
+// Camera follows the player, 50 units above:
+camera.follow(player, { x: 0, y: -50 });
+```
+
+### 12/2/2025
+`timer()` => TimerComp
+
+#### What It Does:
+The `timer()` function lets you control timed events for your game objects. You can make things happen after a delay, or repeat actions at set intervals. It also allows you to animate objects and smoothly change their properties over time.
+
+#### Here's what it lets you do:
+- **`wait()`**:  
+  Make something happen after waiting for a certain amount of time (e.g., after 2 seconds).
+- **`loop()`**:  
+  Perform an action repeatedly at a set interval (e.g., every 0.5 seconds). 
+- **`tween()`**:  
+  Smoothly move or change an object's properties (e.g., moving a character or fading something in or out).
+
+**EXAMPLE**: 
+``` js 
+  // Wait 2 seconds before doing something
+obj.wait(2, () => console.log("2 seconds passed!"));
+
+// Repeat every 0.5 seconds
+obj.loop(0.5, () => console.log("This happens every 0.5 seconds"));
+```
+  
+### 12/3/2025
+ `stay(scenesToStay?: string[])` => StayComp
+
+#### What It Does:
+The `stay()` function ensures that an object doesn’t get destroyed when switching scenes. Normally, when you change a scene (e.g., going from the main menu to gameplay), everything gets wiped out. But if you want certain objects (like explosions or UI elements) to persist, you use `stay()`.
+
+You can also specify which scenes the object should remain in. If you don’t provide any scenes, it will stay through all scenes.
+
+**EXAMPLE**: 
+``` js 
+add([sprite("explosion"), stay()]);
+```
+
+### 12/4/2025
+ `health(hp: number, maxHP?: number)` => HealthComp
+
+#### What It Does:
+The `health()` function lets you add health to your objects (like a player). You can set the starting health and the maximum health, and then the health can decrease or increase when interacting with other objects. If the health reaches 0, you can trigger a death event (e.g., ending the game).
+
+### Here's what it does:
+- **`hurt()`**:  
+  Decreases health (e.g., when an enemy hits the player).  
+- **`heal()`**:  
+  Increases health (e.g., when the player picks up a health pack). 
+- **`on()`**:  
+  Allows you to listen for events like getting hurt or dying to trigger other actions (e.g., playing a sound or switching scenes).
+
+**EXAMPLE**: 
+``` js 
+const player = add([health(3)]);
+
+// Hurt the player by 1 health
+player.hurt(1);
+
+// Heal the player by 1 health
+player.heal(1);
+```
+
+### 12/5/2025
+
+`lifespan(time: number, options?: LifespanCompOpt)` => EmptyComp
+
+#### What It Does:
+The `lifespan()` function makes a game object disappear after a set amount of time. You can also add cool effects like fading before it vanishes.
+
+- **`time`**:  
+  How long the object stays around before it’s destroyed.
+- **`options`**:  
+  Extra options for effects, like making the object fade out before it disappears.
+  
+**EXAMPLE**: 
+
+``` js 
+  // Create an explosion that lasts 1 second and fades away in the last 0.5 seconds
+add([
+  sprite("explosion", { anim: "burst" }),  // Explosion animation
+  lifespan(1, { fade: 0.5 })               // Destroy after 1 second, fade out in last 0.5 seconds
+]);
+```
+
 <!-- 
 https://jsbin.com/gemawinofa/edit?html,js,console,output
 https://jsbin.com/kofuvipeho/edit?html,js,output
