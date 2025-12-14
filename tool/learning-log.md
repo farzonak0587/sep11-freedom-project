@@ -974,10 +974,83 @@ add([
   lifespan(1, { fade: 0.5 })               // Destroy after 1 second, fade out in last 0.5 seconds
 ]);
 ```
+### 12/8/2025
+**`state()`**
 
+**What it does:**
+This function is like setting up rules for how your object changes behavior. You can have it in different states like "`idle`", "`attack`", or "`move`". It also lets you define what happens when you switch from one state to another.
+
+**How it works:**
+You tell it what states the object can be in, and what happens when it switches between them. Like if a character is `idle`, you can make it go to `attack`, and then after that, it can go to `move`.
+
+**Example:**
+``` js 
+state("idle", ["idle", "attack", "move"], {
+    "idle": "attack",  // Idle goes to attack
+    "attack": "move",  // Attack goes to move
+    "move": "idle",    // Move goes back to idle
+});
+```
+
+### 12/9/2025
+`fadeIn(time: number)` => Comp
+
+**What it does:**
+It makes your object `fade` in from invisible to visible over a certain time (in seconds). Super useful for smooth effects when something first appears in the game.
+
+**How it works:**
+If you add this to an object, it'll gradually become visible over the time you set. For example, if you set it to 2 seconds, the object will slowly fade into view.
+
+**Example**:
+``` js 
+fadeIn(2);  // Fades in over 2 seconds
+```
+
+### 12/10/2025
+`mask(maskType?: Mask)` => MaskComp
+
+**What it does:**
+This is like putting a mask on your object to hide parts of it. You can make it show only within certain shapes, like a circle or rectangle.
+
+**How it works:**
+When you apply a mask, only the area inside the mask is visible. If you use a circular mask, the object looks like it’s inside a circle, and the rest is hidden.
+
+**Example:**
+``` js 
+mask();  // Applies a basic shape mask (probably rectangle or circle)
+
+```
+### 12/11/2025
+`tile(opt: TileCompOpt)` => TileComp
+
+**What it does:**
+This is for tile-based games. It lets you add individual tiles (like grass, water, etc.) to the game. It’s perfect for building levels in a grid format.
+
+**How it works:**
+Each tile is like a small piece of a bigger map. You place tiles based on their position and size. It helps you create game maps with repeated elements, like a forest or dungeon.
+
+**Example:**
+``` js 
+tile({ sprite: "grass", pos: vec2(0, 0), width: 32, height: 32 });
+```
+### 12/12/2025
+`agent(opt?: AgentCompOpt)`
+
+**What it does:**
+An agent is like a little AI that can move around your game world. It can navigate through tile maps, find paths, and avoid obstacles. It’s perfect for enemies or NPCs that need to walk around by themselves.
+
+**How it works:**
+You give it the ability to move, and it will use pathfinding to figure out how to get around. You can also set its speed and make it smart enough to avoid things in the way.
+
+**Example:**
+``` js 
+agent({ speed: 100, pathfinding: true });  // Adds an agent that moves and avoids obstacles
+```
 <!-- 
 https://jsbin.com/gemawinofa/edit?html,js,console,output
 https://jsbin.com/kofuvipeho/edit?html,js,output
+
+
 
 * Links you used today (websites, videos, etc)
 * Things you tried, progress you made, etc
