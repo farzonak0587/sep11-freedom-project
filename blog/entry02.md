@@ -185,7 +185,7 @@ On top of that, I’ve been brainstorming ideas for what the game will actually 
 ### Skills
 
  **Time Management**
--  Time management has been super important throughout this project. Since we had weekly learning logs due, I had to be really careful about how I spent my time. It wasn’t just about learning new stuff each week—it was about making sure I kept up with the logs, too. I realized that if I didn’t plan ahead, I’d be scrambling to get everything done last minute.
+-  Time management has been super important throughout this project. Since we had weekly learning logs due, I had to be really careful about how I spent my time. It wasn’t just about learning new stuff each week, it was about making sure I kept up with the logs, too. I realized that if I didn’t plan ahead, I’d be scrambling to get everything done last minute.
 
 - Example: Every week, I’d learn new things about Kaboom.js, but I also had to make sure I had time to write down what I learned for the log. I started setting aside specific time to do the logs. That way, I didn’t feel rushed at the end of the week. I learned to pace myself and keep track of my progress, which made it way less stressful.
 
