@@ -1057,7 +1057,7 @@ This function registers a custom event that triggers for any game object with a 
 You define the event (like "ground"), pick a tag (like "bomb"), and create a callback that gets triggered when the event occurs for the tagged object. The callback lets you control what happens when the event triggers.
 
 Example:
-```
+```js
 on("ground", "bomb", (bomb) => {
     destroy(bomb); // Destroy the bomb when it hits the ground
     addKaboom(bomb.pos); // Create an explosion at the bomb's position
@@ -1078,7 +1078,7 @@ This sets up a custom event that can display a message at a specific position. I
 You create an event (e.g., “talk”) and pass in a message with coordinates. When the event is triggered, the message will be displayed at those coordinates.
 
 Example:
-```
+```js
 on("talk", (message, posX, posY) => {
     add([text(message), pos(posX, posY - 100)]); // Display the message above the NPC
 });
