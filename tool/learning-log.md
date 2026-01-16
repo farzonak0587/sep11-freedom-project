@@ -1046,11 +1046,230 @@ You give it the ability to move, and it will use pathfinding to figure out how t
 ``` js 
 agent({ speed: 100, pathfinding: true });  // Adds an agent that moves and avoids obstacles
 ```
+
+### 1/9/2026
+`on(event: string, tag: Tag, action: (obj: GameObj, args: ...) => void) => EventController`
+
+**What it does:**
+This function registers a custom event that triggers for any game object with a specific tag when that event happens. For example, you could make a bomb explode when it hits the ground.
+
+**How it works:**
+You define the event (like "ground"), pick a tag (like "bomb"), and create a callback that gets triggered when the event occurs for the tagged object. The callback lets you control what happens when the event triggers.
+
+Example:
+```
+on("ground", "bomb", (bomb) => {
+    destroy(bomb); // Destroy the bomb when it hits the ground
+    addKaboom(bomb.pos); // Create an explosion at the bomb's position
+});
+```
+
+In this case, whenever a bomb hits the ground, it’s destroyed, and an explosion is triggered where the bomb was.
+
+
+`on(event: string, action: (message, posX, posY) => void) => EventController`
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+**What it does:**
+This sets up a custom event that can display a message at a specific position. It’s great for things like showing text or dialogues in your game.
+
+**How it works:**
+You create an event (e.g., “talk”) and pass in a message with coordinates. When the event is triggered, the message will be displayed at those coordinates.
+
+Example:
+```
+on("talk", (message, posX, posY) => {
+    add([text(message), pos(posX, posY - 100)]); // Display the message above the NPC
+});
+
+onKeyPress("space", () => {
+    npc.trigger("talk", "Hello World!", npc.pos.x, npc.pos.y); // Trigger "talk" when space is pressed
+});
+```
+
+When you press the spacebar, the NPC will say "Hello World!" at its position.
+
+### 1/12/2026
+`onUpdate(tag: Tag, action: (obj: GameObj) => void) => EventController`
+
+**What it does:**
+Runs a function every frame (about 60 times per second) for game objects with a specific tag. It’s useful for constantly updating things like movement, behavior, or collision checks.
+
+**How it works:**
+You define a tag (e.g., “tree”) and a function to execute every frame for objects with that tag. This function will constantly run as long as the object exists in the scene.
+
+Example:
+```js 
+onUpdate("tree", (tree) => {
+    tree.move(-120, 0); // Move the tree left 120 pixels per second
+    if (tree.pos.x < 0) {
+        destroy(tree); // Destroy the tree when it goes off the screen
+    }
+});
+```
+Every frame, the tree moves left. If it goes off the screen, it’s destroyed.
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+`onUpdate(action: () => void) => EventController`
+
+**What it does:**
+Runs a function every frame, but for general actions that aren’t tied to specific objects. It’s useful for things like logging data or managing global states.
+
+**How it works:**
+The function runs every frame, so you can use it for things like keeping track of time, printing debug messages, or updating the UI.
+
+Example:
+``` js
+onUpdate(() => {
+    debug.log("Game is running!"); // Print a message every frame
+});
+```
+
+In this case, the game prints "Game is running!" every frame, which can be helpful for debugging.
+
+### 1/13/2026
+`onDraw(tag: Tag, action: (obj: GameObj) => void) => EventController`
+
+**What it does:**
+This runs a drawing function for game objects with a specific tag, but it runs after the update phase. It's used for rendering visuals like sprites, health bars, or effects.
+
+**How it works:**
+After all objects are updated, this function gets called to draw the visuals of the tagged objects. You can draw them based on their updated position, state, or behavior.
+
+Example:
+```js
+onDraw("player", (player) => {
+    drawRect(player.pos, player.width, player.height, rgb(0, 255, 0)); // Draw a green rectangle around the player
+});
+```
+Here, every frame, the player is drawn as a green rectangle based on its current position.
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+`onDraw(action: () => void) => EventController`
+
+**What it does:**
+This runs a drawing function every frame, but it’s not tied to any specific tag. Use this for things like background effects, global visuals, or drawing things that don't rely on object states.
+
+**How it works:**
+It runs every frame after updates, so it’s perfect for things like drawing the background, particle effects, or visual cues that aren’t directly linked to game objects.
+
+Example:
+``` js 
+onDraw(() => {
+    drawLine({
+        p1: vec2(0, 0),
+        p2: mousePos(), // Draw a line from (0,0) to the mouse position
+        color: rgb(0, 0, 255), // Line color is blue
+    });
+});
+```
+
+This draws a line from the top-left corner to where the mouse is, updating every frame.
+
+### 1/14/2026
+
+`onAdd(tag: Tag, action: (obj: GameObj) => void) => EventController`
+
+**What it does:**
+This event triggers when a new game object with a specific tag is added to the scene. It’s useful for setting initial properties or handling things like setting up enemies when they appear.
+
+**How it works:**
+When a new object with the defined tag is added to the scene, the function you provide is triggered. This is great for setting up starting conditions like stats or abilities.
+
+**Example:**
+```js
+onAdd("enemy", (enemy) => {
+    enemy.health = 100; // Set health to 100 for every newly spawned enemy
+});
+```
+
+So, whenever an enemy is added, it gets 100 health automatically.
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+`onAdd(action: (obj: GameObj) => void) => EventController`
+
+**What it does:**
+This triggers when any object is added to the scene, no matter what tag it has. It’s useful for global actions, like logging or setting up objects when they’re created.
+
+**How it works:**
+The function runs every **time an object is added, so you can use it for actions that should happen every time something new is introduced into the game.
+
+**Example:**
+```js 
+onAdd((obj) => {
+    debug.log(`${obj} has been added to the scene!`); // Log every object added
+});
+```
+
+Every time an object is added, it prints a message saying which object was added.
+
+
+### 1/15/2026
+
+`onDestroy(tag: Tag, action: (obj: GameObj) => void) => EventController`
+
+**What it does:**
+This event triggers when an object with a specific tag is destroyed. It’s helpful for cleaning up or triggering events (like scoring) when something is removed from the game.
+
+**How it works:**
+When an object of the given tag is destroyed, your action is triggered. This is useful for things like updating scores, playing sound effects, or triggering animations.
+
+**Example:**
+``` js
+onDestroy("enemy", (enemy) => {
+    score += 100; // Add 100 points when an enemy is destroyed
+});
+```
+So every time an enemy is destroyed, 100 points are added to the score.
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+`onDestroy(action: (obj: GameObj) => void) => EventController`
+
+**What it does:**
+This triggers when any game object is destroyed. Use it for cleanup or things like updating a global state when objects are removed.
+
+**How it works:**
+The function will be triggered whenever any object is destroyed, regardless of its tag. It’s useful for things like general game state updates or final effects.
+
+**Example:**
+```js
+onDestroy((obj) => {
+    debug.log(`${obj} has been destroyed!`); // Log when any object is destroyed
+});
+```
+
+This logs when any object in the game gets destroyed.
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+`onLoad(action: () => void)`
+
+**What it does:**
+This runs once all the game assets (like sprites and sounds) have finished loading. It’s useful for setting up things like game objects or animations once everything is ready.
+
+**How it works:**
+Once all your assets are fully loaded, the action inside this function gets called. This makes sure that the game doesn’t try to use assets before they’re ready.
+
+**Example:**
+```js
+onLoad(() => {
+    const bean = add([sprite("bean")]); // Add a sprite once everything is loaded
+    debug.log(bean.width); // Log the width of the sprite after it's loaded
+});
+```
+
+Here, the "bean" sprite is only added after the assets are fully loaded, and its width is logged to the console
+
+
+
 <!-- 
 https://jsbin.com/gemawinofa/edit?html,js,console,output
 https://jsbin.com/kofuvipeho/edit?html,js,output
-
-
 
 * Links you used today (websites, videos, etc)
 * Things you tried, progress you made, etc
