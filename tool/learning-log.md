@@ -1265,6 +1265,170 @@ onLoad(() => {
 
 Here, the "bean" sprite is only added after the assets are fully loaded, and its width is logged to the console
 
+### 3/2-4/2026
+
+**What is the game:** This game is a dodge-the-enemies game where the player controls a blue square that can move in all directions using the arrow keys. Red enemy squares fall from the top of the screen, and the goal is to avoid touching them for as long as possible; the game ends when the player collides with an enemy.
+
+``` js
+kaboom(); 
+
+// --------- MY GAME SETTINGS ----------
+const PLAYER_SPEED = 200;   // How fast my blue player box moves (pixels per second)
+const ENEMY_SPEED = 100;    // How fast red enemies fall down the screen
+const SPAWN_INTERVAL = 1.5; // Wait 1.5 seconds between spawning each enemy
+
+let isGameOver = false;     // My "game over" switch - false = keep playing, true = game done
+
+// --------- CREATE MY BLUE PLAYER BOX ----------
+const player = add([         // "add" puts a new game object on screen
+  rect(40, 40),             // Make a square that's 40 pixels wide and tall
+  color(0, 0, 255),         // Make it BLUE (red=0, green=0, blue=255)
+  pos(width() / 2, height() - 80), // Put it in the middle of screen, near bottom
+  area(),                   // Give it a "force field" so it can crash into enemies
+  body(),                   // Add gravity so it falls (even tho we don't use it much)
+  anchor("center"),         // The position is the CENTER of the box, not top-left corner
+  "player",                 // Give it a name tag called "player" 
+]);
+
+// --------- MAKE PLAYER MOVE WITH ARROW KEYS ----------
+onKeyDown("left", () => {   // When I hold LEFT arrow key...
+  if (isGameOver) return;   // ...if game is over, do nothing
+  player.move(-PLAYER_SPEED, 0); // Move player LEFT at speed 200
+});
+
+onKeyDown("right", () => {  // When I hold RIGHT arrow key...
+  if (isGameOver) return;
+  player.move(PLAYER_SPEED, 0);  // Move player RIGHT at speed 200
+});
+
+onKeyDown("up", () => {     // When I hold UP arrow key...
+  if (isGameOver) return;
+  player.move(0, -PLAYER_SPEED); // Move player UP
+});
+
+onKeyDown("down", () => {   // When I hold DOWN arrow key...
+  if (isGameOver) return;
+  player.move(0, PLAYER_SPEED);  // Move player DOWN
+});
+
+// --------- ENEMY FACTORY (makes red bad guys) ----------
+function spawnEnemy() {     // My enemy-making machine!
+  if (isGameOver) return;   // Don't make enemies if game over
+
+  add([                     // Make a new red enemy box
+    rect(40, 40),           // Same size as player
+    color(255, 0, 0),       // RED color (full red, no green, no blue)
+    pos(rand(40, width() - 40), -40), // Random spot across top of screen (off-screen)
+    area(),                 // Can crash into player
+    move(vec2(0, 1), ENEMY_SPEED),    // Keep moving STRAIGHT DOWN forever
+    offscreen({ destroy: true }),     // Delete enemy when it falls off bottom
+    "enemy",                // Name tag "enemy"
+  ]);
+}
+
+// --------- ENEMY SPAWNER (like an alarm clock) ----------
+loop(SPAWN_INTERVAL, () => {  // Every 1.5 seconds, do this:
+  spawnEnemy();             // Make a new enemy!
+});
+
+// --------- CRASH DETECTION (game over trigger) ----------
+onCollide("player", "enemy", () => {  // When player box touches ANY enemy box...
+  if (isGameOver) return;   // Don't do anything if already game over
+  isGameOver = true;        // Flip the switch - GAME OVER!
+
+  // Show big red GAME OVER message
+  add([
+    text("Game Over", { size: 48 }),  // Giant text
+    pos(center()),                    // Put it in middle of screen
+    anchor("center"),                 // Center of text goes at center of screen
+    color(255, 0, 0),                 // Blood red color
+  ]);
+});
+
+```
+
+### 3/5-6/2026
+
+**What is the game:** This game is a “catch the coins” game where a yellow player rectangle moves left and right at the bottom of the screen to catch falling gold coins. Each coin you catch increases your score, and coins that fall past the player are missed.
+
+
+``` js
+// Initialize Kaboom game engine
+kaboom({
+    width: 640,             // Canvas width
+    height: 480,            // Canvas height
+    background: [50, 150, 200], // Background color (light blue)
+});
+
+// Game variable for keeping track of score
+let score = 0;
+
+// Add the player
+const player = add([
+    rect(60, 20),           // Player is a rectangle 60x20 pixels
+    color(255, 255, 0),     // Yellow color
+    pos(width() / 2, height() - 40), // Start at bottom center
+    anchor("center"),       // Center the rectangle on its position
+    "player",               // Tag this object as "player" for collisions
+]);
+
+// Display the score on screen
+const scoreText = add([
+    text("Score: 0", 24),   // Initial text with font size 24
+    pos(20, 20),            // Position at top-left
+    anchor("topleft"),      // Anchor at top-left corner
+]);
+
+// Handle player movement
+onKeyDown("left", () => {
+    player.move(-300, 0);   // Move player left at 300 pixels/sec
+});
+
+onKeyDown("right", () => {
+    player.move(300, 0);    // Move player right at 300 pixels/sec
+});
+
+// Array to store all the coins
+const coins = [];
+
+// Spawn coins every 1 second
+loop(1, () => {
+    const coin = add([
+        rect(30, 30),           // Coin is a 30x30 rectangle
+        color(255, 215, 0),     // Gold color
+        pos(rand(20, width() - 20), -50), // Random X, start above screen
+        anchor("center"),       // Center the rectangle
+        "coin",                 // Tag this object as "coin"
+        { speed: 200 }          // Custom property: fall speed in pixels/sec
+    ]);
+
+    coins.push(coin);           // Add coin to array to track it
+});
+
+// Update function, runs every frame (~60 times/sec)
+onUpdate(() => {
+    coins.forEach((coin, index) => {
+        // Move coin down
+        coin.pos.y += coin.speed * dt(); // dt() is delta time between frames
+
+        // Check collision with player manually
+        if (coin.pos.y + 15 >= player.pos.y - 10 && // Coin bottom vs player top
+            coin.pos.x > player.pos.x - 30 &&      // Coin within player width
+            coin.pos.x < player.pos.x + 30) {
+            destroy(coin);         // Remove coin from screen
+            coins.splice(index, 1); // Remove from array
+            score += 1;             // Increase score
+            scoreText.text = "Score: " + score; // Update on-screen text
+        }
+
+        // Remove coin if it falls past the bottom of the screen
+        if (coin.pos.y > height() + 20) {
+            destroy(coin);          // Remove coin
+            coins.splice(index, 1); // Remove from array
+        }
+    });
+});
+``` 
 
 
 <!-- 
