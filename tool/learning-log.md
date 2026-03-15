@@ -1247,7 +1247,7 @@ This logs when any object in the game gets destroyed.
 
 -------------------------------------------------------------------------------------------------------------------------------------
 
-`onLoad(action: () => void)`
+`onLoad(action: ()  void)`
 
 **What it does:**
 This runs once all the game assets (like sprites and sounds) have finished loading. It’s useful for setting up things like game objects or animations once everything is ready.
@@ -1257,7 +1257,7 @@ Once all your assets are fully loaded, the action inside this function gets call
 
 **Example:**
 ```js
-onLoad(() => {
+onLoad(()  {
     const bean = add([sprite("bean")]); // Add a sprite once everything is loaded
     debug.log(bean.width); // Log the width of the sprite after it's loaded
 });
@@ -1301,12 +1301,12 @@ onKeyDown("right", () {  // When I hold RIGHT arrow key...
   player.move(PLAYER_SPEED, 0)  // Move player RIGHT at speed 200
 })
 
-onKeyDown("up", () => {     // When I hold UP arrow key...
+onKeyDown("up", () {     // When I hold UP arrow key...
   if (isGameOver) return
   player.move(0, -PLAYER_SPEED) // Move player UP
 })
 
-onKeyDown("down", () => {   // When I hold DOWN arrow key...
+onKeyDown("down", () {   // When I hold DOWN arrow key...
   if (isGameOver) return
   player.move(0, PLAYER_SPEED)  // Move player DOWN
 })
@@ -1332,7 +1332,7 @@ loop(SPAWN_INTERVAL, () {  // Every 1.5 seconds, do this:
 })
 
 // --------- CRASH DETECTION (game over trigger) ----------
-onCollide("player", "enemy", () => {  // When player box touches ANY enemy box...
+onCollide("player", "enemy", () {  // When player box touches ANY enemy box...
   if (isGameOver) return   // Don't do anything if already game over
   isGameOver = true     // Flip the switch - GAME OVER!
 
@@ -1380,11 +1380,11 @@ const scoreText = add([
 ])
 
 // Handle player movement
-onKeyDown("left", () => {
+onKeyDown("left", ()  {
     player.move(-300, 0)  // Move player left at 300 pixels/sec
 })
 
-onKeyDown("right", () => {
+onKeyDown("right", () {
     player.move(300, 0)    // Move player right at 300 pixels/sec
 }
 
@@ -1392,7 +1392,7 @@ onKeyDown("right", () => {
 const coins = []
 
 // Spawn coins every 1 second
-loop(1, () => {
+loop(1, () {
     const coin = add([
         rect(30, 30),           // Coin is a 30x30 rectangle
         color(255, 215, 0),     // Gold color
@@ -1406,8 +1406,8 @@ loop(1, () => {
 })
 
 // Update function, runs every frame (~60 times/sec)
-onUpdate(() => {
-    coins.forEach((coin, index) => {
+onUpdate(() {
+    coins.forEach((coin, index){
         // Move coin down
         coin.pos.y += coin.speed * dt() // dt() is delta time between frames
 
