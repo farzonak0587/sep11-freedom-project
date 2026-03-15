@@ -1,7 +1,17 @@
 # Entry 4
-##### X/X/XX
+##### 3/15/26
 
-Text
+## Content
+
+
+
+
+## Engineering Design Process: 
+
+## Skills
+
+
+ 
 
 [Previous](entry03.md) | [Next](entry05.md)
 
