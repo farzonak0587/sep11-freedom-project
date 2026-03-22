@@ -1428,7 +1428,136 @@ onUpdate(() {
         }
     })
 })
-``` 
+```
+-------------------------------------------------------------------------------------------------------------------------------------
+### 3-16-2026
+
+`wait(n: number, action?: () => void) => TimerController `
+
+**What it does:**
+This runs your callback once after n seconds of game time have passed. It’s useful for delayed actions like explosions, showing messages, or spawning enemies later.
+
+**How it works:**
+When you call wait, the engine schedules your function on an internal timer and, after the delay, calls it once and then stops. The returned controller can be used to cancel the timer before it fires.
+
+**Example:**
+``` js 
+js
+// 3 seconds until explosion! Runnn!
+wait(3, () => {
+    explode();
+});
+
+// wait() can also be awaited inside async functions
+async function startRound() {
+    await wait(1);        // pause this function for 1 second
+    spawnEnemies();       // then do something
+}
+```
+-------------------------------------------------------------------------------------------------------------------------------------
+
+### 3-17-2026
+
+` loop(t: number, action: () => void) => EventController`
+
+**What it does:**
+This runs your callback every t seconds. It’s useful for repeated behaviors like spawning enemies, ticking a countdown, or updating something on a fixed interval.
+
+**How it works:**
+When you call loop, the engine schedules your function to run repeatedly: once on the next frame (typically) and then again every t seconds. The returned controller lets you stop the loop when you no longer need it.
+
+**Example:**
+
+``` js
+// Spawn a butterfly at a random position every 1 second
+const butterflyLoop = loop(1, () => {
+    add([
+        sprite("butterfly"),
+        pos(rand(vec2(width(), height()))),
+        area(),
+        "friend",
+    ]);
+});
+
+// Later, if you want to stop spawning butterflies:
+// butterflyLoop.cancel();
+```
+Here, a new butterfly is added once per second at a random position until you cancel the loop.
+
+-------------------------------------------------------------------------------------------------------------------------------------
+### 3-18-20-2026
+
+``` js
+kaboom({
+    width: 800,
+    height: 480,
+    background: [135, 206, 235],
+});
+
+// PLAYER
+const player = add([
+    rect(50, 50),
+    pos(100, 300),
+    color(0, 1, 0),
+    area(),
+    body(),
+    "player"
+]);
+
+// GROUND
+add([
+    rect(800, 40),
+    pos(0, 430),
+    color(0.6, 0.3, 0.1),
+    area(),
+    body({ isStatic: true }),
+    "ground"
+]);
+
+// SCORE
+let score = 0;
+const scoreText = add([text("Score: 0", 24), pos(20, 20), fixed()]);
+
+// CONTROLS
+const SPEED = 200;
+onKeyDown("a", () => player.move(-SPEED, 0));
+onKeyDown("d", () => player.move(SPEED, 0));
+onKeyPress("space", () => player.jump(400));
+
+// ENEMY SPAWN
+function spawnEnemy() {
+    const enemy = add([
+        rect(30, 30),
+        pos(800, 390),
+        color(1, 0, 0),
+        area(),
+        move(-150, 0),
+        "enemy"
+    ]);
+
+    // Destroy enemy if offscreen and add score
+    enemy.onUpdate(() => {
+        if(enemy.pos.x + 30 < 0) {
+            destroy(enemy);
+            score += 1;
+        }
+    });
+
+    wait(2, spawnEnemy);
+}
+spawnEnemy();
+
+// COLLISION
+onCollide("player", "enemy", (p, e) => {
+    shake(10);
+    go("game"); // restart
+});
+
+// UPDATE LOOP
+onUpdate(() => {
+    scoreText.text = "Score: " + score;
+});
+```
 
 
 <!-- 
