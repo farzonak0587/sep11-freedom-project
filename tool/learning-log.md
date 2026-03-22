@@ -1485,79 +1485,125 @@ const butterflyLoop = loop(1, () => {
 Here, a new butterfly is added once per second at a random position until you cancel the loop.
 
 -------------------------------------------------------------------------------------------------------------------------------------
-### 3-18-20-2026
+### 3-18-2026
 
-``` js
-kaboom({
-    width: 800,
-    height: 480,
-    background: [135, 206, 235],
-});
+`play(src, options) => AudioPlay`
 
-// PLAYER
-const player = add([
-    rect(50, 50),
-    pos(100, 300),
-    color(0, 1, 0),
-    area(),
-    body(),
-    "player"
-]);
+**What it does:**
+Plays a sound or music track. Returns a handle `(AudioPlay)` that lets you control playback (pause, stop, change speed, volume, etc.). Can be used for sound effects or background music.
 
-// GROUND
-add([
-    rect(800, 40),
-    pos(0, 430),
-    color(0.6, 0.3, 0.1),
-    area(),
-    body({ isStatic: true }),
-    "ground"
-]);
+**How it works:**
 
-// SCORE
-let score = 0;
-const scoreText = add([text("Score: 0", 24), pos(20, 20), fixed()]);
+-  `src`: the name of a loaded sound or music asset.
+options can include volume, loop, and speed.
+- You can store the return value in a variable to pause or change speed later.
 
-// CONTROLS
-const SPEED = 200;
-onKeyDown("a", () => player.move(-SPEED, 0));
-onKeyDown("d", () => player.move(SPEED, 0));
-onKeyPress("space", () => player.jump(400));
+**Example** – Play a “coin pickup” sound and speed it up:
 
-// ENEMY SPAWN
-function spawnEnemy() {
-    const enemy = add([
-        rect(30, 30),
-        pos(800, 390),
-        color(1, 0, 0),
-        area(),
-        move(-150, 0),
-        "enemy"
-    ]);
+``` js 
+// Play coin sound
+const coinSound = play("coin");
 
-    // Destroy enemy if offscreen and add score
-    enemy.onUpdate(() => {
-        if(enemy.pos.x + 30 < 0) {
-            destroy(enemy);
-            score += 1;
-        }
-    });
+// Make it play faster (funny, chipmunk-style effect)
+coinSound.speed = 1.5;
 
-    wait(2, spawnEnemy);
+// Pause it after 1 second
+wait(1, () => coinSound.paused = true);
+```
+Explanation:
+- Plays a “coin” sound.
+- Immediately speeds it up to 1.5x.
+- After 1 second, pauses the sound.
+- Useful for controlling sound effects dynamically in a game.
+
+-------------------------------------------------------------------------------------------------------------------------------------
+### 3-19-2026
+`burp(options?: AudioPlayOpt) => AudioPlay`
+
+**What it does:**
+Plays a “burp” sound effect built into Kaboom. Works like play(), and you can adjust volume, speed, or looping.
+
+**Example** – Play burp slowly and quietly when an enemy is defeated:
+``` js 
+// Enemy defeated
+function onEnemyDefeat() {
+    burp({ volume: 0.2, speed: 0.6 });
 }
-spawnEnemy();
 
-// COLLISION
-onCollide("player", "enemy", (p, e) => {
-    shake(10);
-    go("game"); // restart
-});
+// Trigger it for demonstration
+onEnemyDefeat();
+```
+**Explanation**:
+- Plays the burp sound at 20% volume and 60% speed.
+- Makes it sound “slower and quieter” — good for comic effect.
 
-// UPDATE LOOP
-onUpdate(() => {
-    scoreText.text = "Score: " + score;
+  
+`volume(v?: number) => number`
+
+**What it does:**
+Gets or sets the global volume of all audio in the game.
+- volume() → returns current volume (number between 0–1)
+- volume(0.5) → sets everything to half volume
+
+**Example** – Gradually fade out all game audio:
+``` js 
+// Starting at full volume
+volume(1.0);
+
+// Every 0.5 seconds, reduce volume by 0.1
+let fade = loop(0.5, () => {
+    const current = volume();
+    if (current > 0) {
+        volume(current - 0.1);
+    } else {
+        fade.cancel(); // stop the loop when volume hits 0
+    }
 });
 ```
+**Explanation**:
+- Starts at full volume.
+- Uses a repeating loop to gradually decrease volume until silence.
+- Demonstrates controlling all game audio dynamically.
+
+-------------------------------------------------------------------------------------------------------------------------------------
+### 3-20-2026
+
+**Combining all three functions**
+
+**Example** – Background music + interactive sound effect + volume control:
+``` js 
+// Play looping background music quietly
+const bgMusic = play("ambient", { volume: 0.3, loop: true });
+
+// Press key to play a special sound effect
+onKeyPress("e", () => {
+    play("explosion", { volume: 0.8 });
+});
+
+// Press key to toggle mute
+onKeyPress("m", () => {
+    if (volume() > 0) {
+        volume(0);
+    } else {
+        volume(0.5);
+    }
+});
+
+// Play a burp for fun after 3 seconds
+wait(3, () => burp({ volume: 0.5, speed: 1 }));
+```
+
+**Explanation**:
+
+- Background music loops quietly.
+- Press e to trigger a sound effect.
+- Press m to toggle mute/unmute.
+- Plays a burp automatically after 3 seconds.
+- Shows how play(), burp(), and volume() can interact.
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+
 
 
 <!-- 
