@@ -14,7 +14,7 @@ Today I learned that Kaboom.js is a JavaScript library that helps you make simpl
 **What I tried**
 
 I wrote my very first line of Kaboom code:
-``` js 
+``` js
 kaboom();
 ```
 
@@ -31,7 +31,7 @@ After saving and refreshing, the Kaboom canvas appeared. I also learned that the
 
 What I learned from solving it
 I understood how Kaboom initializes and that it needs to be loaded before any other game functions. Once it’s set up, the rest of the code builds on top of it.
-  
+
 ### 09/30/25:
 
 What I learned:
@@ -48,7 +48,7 @@ Each thing you see in the game is built out of these small “lego” components
 
 What I tried:
 I made my first blue square:
-```js 
+```js
 kaboom();
 
 add([
@@ -86,7 +86,7 @@ Today I learned about movement in Kaboom. There’s a function called `onUpdate(
 **What I tried**
 
 I made my blue square move to the right:
-``` js  
+``` js
 kaboom();
 
 const box = add([
@@ -111,7 +111,7 @@ At first, my square shot across the screen super fast. I checked the Kaboom docs
 **What I learned from solving it**
 
 The movement speed in Kaboom depends on time, not frames, which makes everything look smoother no matter how fast your computer runs.
-  
+
 ### 10/2/25:
 
 **What I learned**
@@ -139,7 +139,7 @@ onKeyDown("down", () => box.move(0, 120));
 
 When I ran the game, I could finally move the square around using my keyboard. It felt like the first “real” game.
 
-What other code mean: 
+What other code mean:
 * `() => {}` = a small, quick function.
 
 * The parentheses `()` mean “no inputs.”
@@ -149,12 +149,12 @@ What other code mean:
 * The braces `{}` hold the code you want to run.
 
 
-  
+
 ### 10/3/25:
 
 **What I learned**
 
-Today I learned how to change the shape or color of an object when I press a certain key. I already knew how to move my square with the arrow keys, but now I wanted to make it react in other ways too. 
+Today I learned how to change the shape or color of an object when I press a certain key. I already knew how to move my square with the arrow keys, but now I wanted to make it react in other ways too.
 
 **What I tried**
 
@@ -165,7 +165,7 @@ onKeyPress("space", () => {
   box.color = rgb(255, 0, 0);
 });
 ```
-This changed the blue color box to become red once the spacebar is pressed. 
+This changed the blue color box to become red once the spacebar is pressed.
 
 
 `add()` creates a new game object and puts it on the screen.
@@ -196,7 +196,7 @@ Both of these functions let you modify the appearance of your game objects witho
 
 First, I made a simple square again, but this time I added scale() and rotate():
 
-``` js 
+``` js
 kaboom();
 
 add([
@@ -271,7 +271,7 @@ The `body()` function gives the object physics properties. It applies gravity to
 
 Example:
 
-``` js 
+``` js
 let player = add([
   rect(40, 40),      // Creates a 40x40px rectangle
   pos(100, 100),     // Position: (100, 100)
@@ -324,7 +324,7 @@ The anchor can be set to any of the following values:
 Example:
 
 Let’s take a simple example to show how the anchor works:
-``` js 
+``` js
 let box1 = add([
   rect(40, 40),    // A 40x40px rectangle
   pos(100, 100),   // Starting position at (100, 100)
@@ -354,7 +354,7 @@ What is `onCollide()`?
 `onCollide()` is an event listener that runs a callback function when an object of a certain tag collides with another object of a different tag. The function is triggered when two objects come into contact, and you can specify what should happen when the collision occurs.
 
 
-``` js 
+``` js
 onCollide(tag1, tag2, callback)
 ```
 
@@ -364,8 +364,8 @@ onCollide(tag1, tag2, callback)
 
 - callback: A function that runs when the two objects collide.
 
-Example: 
-``` js 
+Example:
+``` js
 // Create the player object
 let player = add([
   rect(40, 40),       // 40x40px rectangle
@@ -385,14 +385,14 @@ let enemy = add([
 ]);
 
 // Detect collision between player and enemy
-onCollide("player", "enemy", () => {
+onCollide("player", "enemy", () {
   // Actions that happen when the player collides with the enemy
   player.color = rgb(255, 255, 0); // Change player color to yellow
   destroy(enemy);                   // Destroy the enemy on collision
 });
 ```
 
-**What Happens:** 
+**What Happens:**
 
 - Both the player and enemy objects have `area()` for collision detection.
 
@@ -401,7 +401,7 @@ onCollide("player", "enemy", () => {
 - When the player collides with the enemy, the `onCollide()` function is triggered.
 
 - Inside the callback:  The player's color changes to yellow and the enemy is destroyed.
-  
+
 ### 10/31/25:
 
 **What I created:**
@@ -428,9 +428,9 @@ onCollide("player", "enemy", () => {
     ]);
 
     // Player movement: Arrow keys
-    onKeyDown("right", () => box1.move(120, 0));   // Move right
-    onKeyDown("left", () => box1.move(-120, 0));   // Move left
-    onKeyDown("up", () => box1.move(0, -120));     // Move up
+    onKeyDown("right", ()  box1.move(120, 0));   // Move right
+    onKeyDown("left", ()  box1.move(-120, 0));   // Move left
+    onKeyDown("up", ()  box1.move(0, -120));     // Move up
     onKeyDown("down", () => box1.move(0, 120));    // Move down
 
     // Detect collision between the blue box (box1) and the red box (box2)
@@ -544,8 +544,8 @@ onClick("bomb", () => {
 
 This is an efficient way to remove all bombs at once, rather than manually destroying each one. It’s especially useful if there are many objects with the same tag (e.g., enemies, bullets, etc.).
 
-### 11/13/25 and 11/14/2025: 
-``` js 
+### 11/13/25 and 11/14/2025:
+``` js
 // Initialize Kaboom engine
     kaboom();
 
@@ -631,13 +631,13 @@ This is an efficient way to remove all bombs at once, rather than manually destr
 
 Example: Fullscreen Spiral Effect
 
-``` js 
+``` js
 add([
     uvquad(width(), height()),  // Make the quad the same size as the screen
     shader("spiral"),  // Apply the spiral effect to the quad
 ])
 
-``` 
+```
 What happens here:
 - You’ve got a quad that fills the screen.
 - It looks like a spiral is spinning in the background!
@@ -652,7 +652,7 @@ What happens here:
 - Detect when a player hits an enemy or an object, and then do something about it.
 
 Example 1: Player Dies When Hitting a Tree
-``` js 
+``` js
 const player = add([
     sprite("bean"),
     area(),  // Make the bean able to collide with other stuff
@@ -669,7 +669,7 @@ What happens here:
 - After that, it switches to a "lose" screen.
 
 Example 2: Increase Score on Collision
-``` js 
+``` js
 player.onUpdate(() => {
     if (player.isColliding(enemy)) {
         score += 1  // Add to score if player touches an enemy
@@ -688,7 +688,7 @@ player.onUpdate(() => {
 - Use a triangle or other weird shapes for collisions instead of just a box.
 
 Example 1: Smaller Collision Area
-``` js 
+``` js
 add([
     sprite("flower"),
     area({ scale: 0.6 }),  // Make the collision area smaller (60% of the sprite)
@@ -699,7 +699,7 @@ add([
 **What happens here:** The flower’s collision area is smaller than the sprite. It’s like the sprite has a smaller hitbox.
 
 Example 2: Custom Polygon Collision
-``` js 
+``` js
 add([
     sprite("bean"),
     area({ shape: new Polygon([vec2(0), vec2(100), vec2(-100, 100)]) }),  // Make the collision a triangle
@@ -748,7 +748,7 @@ add([
 - Control the order of things being drawn, like a background, then enemies, then player, etc.
 
 Example: Cloud Above Everything
-``` js 
+``` js
 add([
     sprite("cloud"),
     z(100),  // Make sure the cloud is on top of other things
@@ -768,7 +768,7 @@ add([
 - Create glowing or neon effects by using bright colors.
 
 Example: Text with Outline
-``` js 
+``` js
 add([
     text("hello"),
     outline(4, rgb(0, 0, 0)),  // Black outline with a width of 4px
@@ -781,7 +781,7 @@ add([
 
 **What it does:** This adds physics to your object, like gravity, jumping, and collisions. It makes the object fall, jump, and interact with other objects physically.
 
-**What you can do:** 
+**What you can do:**
 - Add jumping to your player.
 - Make objects affected by gravity (fall to the ground).
 
@@ -813,7 +813,7 @@ onKeyPress("space", () => {
 - Control the number of mid-air jumps.
 
 Example: Double Jump
-``` js 
+``` js
 add([
     sprite("bean"),
     pos(),
@@ -834,7 +834,7 @@ add([
 - Make an enemy move toward the player.
 
 Example: Bullet Firing at Enemy
-``` js 
+``` js
 add([
     sprite("bullet"),
     pos(player.pos),  // Start the bullet at the player's position
@@ -876,7 +876,7 @@ This function makes one object follow another in your game. So like, if you want
 
 - **`obj: GameObj | null`**:
   - This is the thing your object will follow (like another character or object). If you pass `null`, it means the object won’t follow anyone anymore.
-  
+
 - **`offset?: Vec2`** (optional):
   - This is like a "shift" in position. If you want the camera to follow the player but be higher or to the side, you can set this offset.
 
@@ -899,22 +899,22 @@ camera.follow(player, { x: 0, y: -50 });
 The `timer()` function lets you control timed events for your game objects. You can make things happen after a delay, or repeat actions at set intervals. It also allows you to animate objects and smoothly change their properties over time.
 
 #### Here's what it lets you do:
-- **`wait()`**:  
+- **`wait()`**:
   Make something happen after waiting for a certain amount of time (e.g., after 2 seconds).
-- **`loop()`**:  
-  Perform an action repeatedly at a set interval (e.g., every 0.5 seconds). 
-- **`tween()`**:  
+- **`loop()`**:
+  Perform an action repeatedly at a set interval (e.g., every 0.5 seconds).
+- **`tween()`**:
   Smoothly move or change an object's properties (e.g., moving a character or fading something in or out).
 
-**EXAMPLE**: 
-``` js 
+**EXAMPLE**:
+``` js
   // Wait 2 seconds before doing something
 obj.wait(2, () => console.log("2 seconds passed!"));
 
 // Repeat every 0.5 seconds
 obj.loop(0.5, () => console.log("This happens every 0.5 seconds"));
 ```
-  
+
 ### 12/3/2025
  `stay(scenesToStay?: string[])` => StayComp
 
@@ -923,8 +923,8 @@ The `stay()` function ensures that an object doesn’t get destroyed when switch
 
 You can also specify which scenes the object should remain in. If you don’t provide any scenes, it will stay through all scenes.
 
-**EXAMPLE**: 
-``` js 
+**EXAMPLE**:
+``` js
 add([sprite("explosion"), stay()]);
 ```
 
@@ -935,15 +935,15 @@ add([sprite("explosion"), stay()]);
 The `health()` function lets you add health to your objects (like a player). You can set the starting health and the maximum health, and then the health can decrease or increase when interacting with other objects. If the health reaches 0, you can trigger a death event (e.g., ending the game).
 
 ### Here's what it does:
-- **`hurt()`**:  
-  Decreases health (e.g., when an enemy hits the player).  
-- **`heal()`**:  
-  Increases health (e.g., when the player picks up a health pack). 
-- **`on()`**:  
+- **`hurt()`**:
+  Decreases health (e.g., when an enemy hits the player).
+- **`heal()`**:
+  Increases health (e.g., when the player picks up a health pack).
+- **`on()`**:
   Allows you to listen for events like getting hurt or dying to trigger other actions (e.g., playing a sound or switching scenes).
 
-**EXAMPLE**: 
-``` js 
+**EXAMPLE**:
+``` js
 const player = add([health(3)]);
 
 // Hurt the player by 1 health
@@ -960,14 +960,14 @@ player.heal(1);
 #### What It Does:
 The `lifespan()` function makes a game object disappear after a set amount of time. You can also add cool effects like fading before it vanishes.
 
-- **`time`**:  
+- **`time`**:
   How long the object stays around before it’s destroyed.
-- **`options`**:  
+- **`options`**:
   Extra options for effects, like making the object fade out before it disappears.
-  
-**EXAMPLE**: 
 
-``` js 
+**EXAMPLE**:
+
+``` js
   // Create an explosion that lasts 1 second and fades away in the last 0.5 seconds
 add([
   sprite("explosion", { anim: "burst" }),  // Explosion animation
@@ -984,7 +984,7 @@ This function is like setting up rules for how your object changes behavior. You
 You tell it what states the object can be in, and what happens when it switches between them. Like if a character is `idle`, you can make it go to `attack`, and then after that, it can go to `move`.
 
 **Example:**
-``` js 
+``` js
 state("idle", ["idle", "attack", "move"], {
     "idle": "attack",  // Idle goes to attack
     "attack": "move",  // Attack goes to move
@@ -1002,7 +1002,7 @@ It makes your object `fade` in from invisible to visible over a certain time (in
 If you add this to an object, it'll gradually become visible over the time you set. For example, if you set it to 2 seconds, the object will slowly fade into view.
 
 **Example**:
-``` js 
+``` js
 fadeIn(2);  // Fades in over 2 seconds
 ```
 
@@ -1016,7 +1016,7 @@ This is like putting a mask on your object to hide parts of it. You can make it 
 When you apply a mask, only the area inside the mask is visible. If you use a circular mask, the object looks like it’s inside a circle, and the rest is hidden.
 
 **Example:**
-``` js 
+``` js
 mask();  // Applies a basic shape mask (probably rectangle or circle)
 
 ```
@@ -1030,7 +1030,7 @@ This is for tile-based games. It lets you add individual tiles (like grass, wate
 Each tile is like a small piece of a bigger map. You place tiles based on their position and size. It helps you create game maps with repeated elements, like a forest or dungeon.
 
 **Example:**
-``` js 
+``` js
 tile({ sprite: "grass", pos: vec2(0, 0), width: 32, height: 32 });
 ```
 ### 12/12/2025
@@ -1043,7 +1043,7 @@ An agent is like a little AI that can move around your game world. It can naviga
 You give it the ability to move, and it will use pathfinding to figure out how to get around. You can also set its speed and make it smart enough to avoid things in the way.
 
 **Example:**
-``` js 
+``` js
 agent({ speed: 100, pathfinding: true });  // Adds an agent that moves and avoids obstacles
 ```
 
@@ -1100,7 +1100,7 @@ Runs a function every frame (about 60 times per second) for game objects with a 
 You define a tag (e.g., “tree”) and a function to execute every frame for objects with that tag. This function will constantly run as long as the object exists in the scene.
 
 Example:
-```js 
+```js
 onUpdate("tree", (tree) => {
     tree.move(-120, 0); // Move the tree left 120 pixels per second
     if (tree.pos.x < 0) {
@@ -1157,7 +1157,7 @@ This runs a drawing function every frame, but it’s not tied to any specific ta
 It runs every frame after updates, so it’s perfect for things like drawing the background, particle effects, or visual cues that aren’t directly linked to game objects.
 
 Example:
-``` js 
+``` js
 onDraw(() => {
     drawLine({
         p1: vec2(0, 0),
@@ -1199,7 +1199,7 @@ This triggers when any object is added to the scene, no matter what tag it has. 
 The function runs every **time an object is added, so you can use it for actions that should happen every time something new is introduced into the game.
 
 **Example:**
-```js 
+```js
 onAdd((obj) => {
     debug.log(`${obj} has been added to the scene!`); // Log every object added
 });
@@ -1287,7 +1287,7 @@ const player = add([         // "add" puts a new game object on screen
   area(),                   // Give it a "force field" so it can crash into enemies
   body(),                   // Add gravity so it falls (even tho we don't use it much)
   anchor("center"),         // The position is the CENTER of the box, not top-left corner
-  "player",                 // Give it a name tag called "player" 
+  "player",                 // Give it a name tag called "player"
 ])
 
 // --------- MAKE PLAYER MOVE WITH ARROW KEYS ----------
@@ -1428,10 +1428,10 @@ onUpdate(() {
         }
     })
 })
-``` 
+```
 
 
-<!-- 
+<!--
 https://jsbin.com/gemawinofa/edit?html,js,console,output
 https://jsbin.com/kofuvipeho/edit?html,js,output
 
