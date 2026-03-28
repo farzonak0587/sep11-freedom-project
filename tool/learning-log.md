@@ -1626,7 +1626,7 @@ Combining everything that i learned, with Javascript and Kaboom
               display: flex;
               justify-content: center;
               align-items: center;
-              min-height: 100vh;
+             
             }
         </style>
 
