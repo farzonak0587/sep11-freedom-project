@@ -1602,6 +1602,94 @@ wait(3, () => burp({ volume: 0.5, speed: 1 }));
 - Shows how play(), burp(), and volume() can interact.
 
 -------------------------------------------------------------------------------------------------------------------------------------
+### 3-23-25-2026
+
+Combining everything that i learned, with Javascript and Kaboom
+``` js
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <style>
+            /* CSS */
+            html, body {
+              margin: 0;
+              padding: 0;
+              overflow: hidden;
+              background: #111118;
+            }
+            body {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              min-height: 100vh;
+            }
+        </style>
+
+        <title>Kaboom Dodge Game</title>
+    </head>
+    <body>
+        <!-- HTML -->
+
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+        <script type="module">
+            import kaboom from "https://unpkg.com/kaboom@3000.0.0/dist/kaboom.mjs"
+
+            kaboom({ background: [17, 24, 39] })
+
+            const W = width()
+            const H = height()
+            let score = 0
+            let lives = 3
+            let gameOver = false
+
+            const player = add([rect(32, 32), pos(W / 2, H - 50), color(34, 197, 94), area(), body(), health(3), anchor('center')])
+            const scoreText = add([text('Score: 0', { size: 24 }), pos(20, 20), color(255, 255, 255)])
+            const livesText = add([text('Lives: 3', { size: 24 }), pos(20, 50), color(255, 255, 255)])
+
+            function updateHud() {
+              scoreText.text = 'Score: ' + score
+              livesText.text = 'Lives: ' + lives
+            }
+
+            function spawnEnemy() {
+              if (gameOver) return
+              const e = add([rect(28, 28), pos(rand(20, W - 20), -20), color(239, 68, 68), area(), move(DOWN, 180), offscreen({ destroy: true }), 'enemy'])
+              e.onCollide('player', () => {
+                if (gameOver) return
+                destroy(e)
+                lives -= 1
+                updateHud()
+                if (lives <= 0) endGame('Game Over')
+              })
+              e.onDestroy(() => {
+                if (!gameOver && e.pos.y > H) {
+                  score += 1
+                  updateHud()
+                  if (score >= 5) endGame('You Win!')
+                }
+              })
+            }
+
+            function endGame(msg) {
+              gameOver = true
+              add([text(msg, { size: 40 }), pos(center()), anchor('center'), color(255, 255, 255)])
+              add([text('Refresh to play again', { size: 20 }), pos(center().x, center().y + 40), anchor('center'), color(255, 255, 255)])
+            }
+
+            onKeyDown('left', () => { if (!gameOver) player.move(-240, 0) })
+            onKeyDown('right', () => { if (!gameOver) player.move(240, 0) })
+            loop(1, spawnEnemy)
+        </script>
+    </body>
+</html>
+
+```
 
 
 
