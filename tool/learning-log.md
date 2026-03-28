@@ -1691,6 +1691,197 @@ Combining everything that i learned, with Javascript and Kaboom
 
 ```
 
+### 3-26-28-2026
+
+Finish Game that we will use for our freedom Project
+
+``` html,js 
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+     /* Basic styling to make the game look clean */
+     body {
+        margin: 0; /* No space around the body */
+        padding: 0; /* No padding */
+        overflow: hidden; /* No scrolling, the game is fully contained */
+      }
+      body {
+        display: flex; /* Flexbox irs for centering stuff */
+        justify-content: center; /* Center the game horizontally */
+        align-items: center; /* Center it vertically too */
+        font-family: sans-serif; /* Super basic font */
+      }
+      .game-container {
+        position: relative; /* So we can position things inside it */
+        display: inline-block; /* Keeps things neat inside the container */
+        border-radius: 16px; /* Rounded corners for that smooth look */
+        background: rgba(0, 0, 0, 0.4); /* Dark background with some transparency */
+      }
+      .top-text {
+        position: absolute; /* This is on top of everything else */
+        top: 8px; /* Just a little bit from the top */
+        left: 0;
+        right: 0;
+        color: white; /* White text, easy to read */
+        text-align: center; /* Center the text */
+        font-size: 16px; /* Not too big, just right */
+        z-index: 100; /* Makes sure this text is always on top */
+      }
+    </style>
+    <title>Kaboom Enemy Dodge Game</title>
+  </head>
+  <body>
+    <div class="game-container">
+      <div></div> <!-- Empty div, we’ll be putting game stuff in here -->
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module">
+      // Kaboom is the game we’re using.
+      import kaboom from "https://unpkg.com/kaboom@3000.0.0/dist/kaboom.mjs"
+
+      kaboom()  // Initializes Kaboom. 
+
+      let currentGameState = { isGameOver: false, didWin: false }  // Track if the game’s over or not
+      let canRestart = true  // This is to prevent spamming the restart button
+
+      // When spacebar is pressed, restart the game if it's over
+      onKeyDown("space", () => {
+        if (currentGameState.isGameOver && !currentGameState.didWin && canRestart) { 
+          canRestart = false // Disable restart for a bit
+          startGame() // Call the start game function to reset everything
+          wait(0.5, () => { canRestart = true })  // Wait for 0.5 seconds before allowing another restart
+        }
+      })
+
+      // Same as space, but also lets you restart with the 'r' key
+      onKeyDown("r", () => {
+        if (currentGameState.isGameOver && !currentGameState.didWin && canRestart) {
+          canRestart = false
+          startGame()  // Reset the game
+          wait(0.5, () => { canRestart = true }) 
+        }
+      })
+
+      // This function actually sets up the game, gets everything rolling
+      function startGame() {
+        const PLAYER_SPEED = 240  // Speed the player moves at
+        const ENEMY_SPEED = 300  // Speed the enemies fall at
+        const ENEMY_PER_SPAWN = 2  // How many enemies appear at once
+        const SPAWN_INTERVAL = 0.8  // How often enemies spawn (in seconds)
+        const WIN_GOAL = 10  // How many enemies the player has to dodge to win
+
+        currentGameState = { isGameOver: false, didWin: false } // Reset the game state
+        let score = 0  // Starting score
+
+        setBackground(rgb(10, 10, 30))  // Dark background so the enemies stand out
+        destroyAll()  // Clear anything from the last round
+
+        // Create the player (a simple blue square for now)
+        const player = add([
+          rect(40, 40),  // Player is just a 40x40 square
+          color(0, 140, 255),  // Blue color
+          pos(width() / 2, height() - 80),  // Position it at the bottom center of the screen
+          area(),  // Enable collision detection
+          body(),  // Add physics to it (so it can be affected by gravity)
+          anchor("center"),  // So it’s centered relative to its position
+          "player",  // Label it as “player” for easier reference later
+        ])
+
+        // Add some text to show the player’s score and instructions
+        const hudText = add([
+          text("Use arrow keys to dodge red boxes. Dodged: 0 / 10", { size: 18 }),  // Display this text
+          pos(width() / 2, 20),  // Position it at the top-center of the screen
+          anchor("center"),  // Center it
+          color(255, 255, 255),  // White color
+          outline(1, rgb(0, 0, 0)),  // Black outline for readability
+        ])
+
+        // Function to update the HUD text with the current score
+        function updateHud() {
+          hudText.text = `Use arrow keys to dodge red boxes. Dodged: ${score} / 10`
+        }
+
+        // Arrow key controls to move the player around
+        onKeyDown("left", () => {
+          if (currentGameState.isGameOver) return // Don’t allow movement if the game is over
+          player.move(-PLAYER_SPEED, 0) // Move the player left
+        })
+        onKeyDown("right", () => {
+          if (currentGameState.isGameOver) return
+          player.move(PLAYER_SPEED, 0) // Move the player right
+        })
+        onKeyDown("up", () => {
+          if (currentGameState.isGameOver) return
+          player.move(0, -PLAYER_SPEED) // Move the player up
+        })
+        onKeyDown("down", () => {
+          if (currentGameState.isGameOver) return
+          player.move(0, PLAYER_SPEED) // Move the player down
+        })
+
+        // Spawns enemies at random positions at the top of the screen
+        function spawnEnemy() {
+          if (currentGameState.isGameOver) return // Don’t spawn enemies if the game’s over
+          for (let i = 0; i < ENEMY_PER_SPAWN; i++) { // Spawn multiple enemies at once
+            add([
+              rect(40, 40), // Enemy is just a 40x40 square
+              color(255, 0, 0), // Red color
+              pos(rand(40, width() - 40), -40), // Random x position, just off-screen at the top
+              area(),  // Enable collision detection
+              move(vec2(0, 1), ENEMY_SPEED), // Enemies fall down at constant speed
+              offscreen({ destroy: true }), // Destroy enemies when they leave the screen
+              "enemy", // Label them as “enemy” for easier reference
+            ])
+          }
+        }
+
+        // This is what happens when an enemy is destroyed (when the player dodges it)
+        on("destroy", "enemy", () => {
+          if (!currentGameState.isGameOver) {
+            score++  // Increase the score when an enemy is dodged
+            updateHud() // Update the HUD with the new score
+            if (score >= WIN_GOAL) { // Check if the player has dodged enough enemies to win
+              currentGameState.isGameOver = true // Game over!
+              currentGameState.didWin = true // Player won
+              add([
+                text("You Win!\nChallenge Complete!", { size: 32 }), // Display the win message
+                pos(center()), // Center the text on screen
+                anchor("center"),
+                color(50, 200, 50), // Green color to show victory
+                outline(2, rgb(0, 0, 0)),  // Black outline to make it pop
+              ])
+            }
+          }
+        })
+
+        // Spawn enemies every SPAWN_INTERVAL seconds
+        loop(SPAWN_INTERVAL, spawnEnemy)
+
+        // This happens when the player collides with an enemy
+        player.onCollide("enemy", (enemy) => {
+          if (currentGameState.isGameOver) return // Don’t do anything if the game’s already over
+          destroy(enemy) // Destroy the enemy
+          currentGameState.isGameOver = true // End the game
+          add([
+            text("Game Over\nPress Space or R to restart", { size: 32 }), // Show game over message
+            pos(center()), // Center the text
+            anchor("center"),
+            color(255, 0, 0), // Red color for failure
+            outline(2, rgb(0, 0, 0)),
+          ])
+        })
+      }
+
+      startGame() // Start the game when the page loads
+    </script>
+  </body>
+</html>
+```
 
 
 
