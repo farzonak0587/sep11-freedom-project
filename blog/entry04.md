@@ -2,7 +2,7 @@
 ##### 3/15/26
 
 ## Content
-So yeah, I haven’t really done a ton on my Freedom Project yet, but I’ve been planning a lot and actually figured out some of the game mechanics. I’ve got a clear idea of how it’s supposed to work, and I even built the block-dodging game itself, I just haven’t put it into my code yet, which I need to figure out next. In addition to using Kaboom.js documentation and other online resources, I also used [W3Schools](https://www.w3schools.com/)
+So yeah, I haven’t really done a ton on my Freedom Project yet, but I’ve been planning a lot and actually figured out some of the game mechanics. I’ve got a clear idea of how it’s supposed to work, and I even built the block-dodging game itself, I just haven’t put it into my code yet, which I need to figure out next. In addition to using [Kaboom.js](https://kaboomjs.com/) documentation and other online resources, I also used [W3Schools](https://www.w3schools.com/)
  to refresh my memory on HTML, CSS, and JavaScript. Since we learned those concepts a while back, W3Schools helped me quickly recall some of the syntax and examples I needed to set up the HTML structure, connect JavaScript to the page, and make sure everything was running smoothly. It was a good reminder of the basics, and I was able to use it as a quick reference when I ran into things I hadn’t touched in a while.
 
 Here’s where I’m at right now. My HTML is super basic,it just sets up the welcome screen, instructions, and a “Start Game” button. Here’s what it looks like:
