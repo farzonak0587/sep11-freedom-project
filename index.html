@@ -24,25 +24,38 @@
     </head>
     <body>
         <!-- HTML -->
+         <!-- Main heading for the game -->
          <h1>Wrong Answers Only Game</h1>
 
+        <!-- Game rules -->
+         <p><strong>Rules:</strong> Answer <em>WRONG ONLY</em>. Correct = Lose. If you answer with the wrong answer, dodge 10 blocks to go to the next round!</p>
 
-   <p><strong>Rules:</strong> Answer <em>WRONG ONLY</em>. Correct = Lose. If you answer with the wrong answer, dodge 10 blocks to go to the next round!</p>
+        <!-- Score display -->
+         <div id="score">Score: 0</div>
 
-   <div id="score">Score: 0</div>
+        <!-- Main game container -->
+        <div id="gameBox">
+            <!-- Question displayed here -->
+            <p id="question" style="font-size: 24px; margin: 20px 0;"></p>
 
+              <!-- Input field for player to type their WRONG answer -->
+            <input type="text" id="answer" placeholder="Enter WRONG answer here">
 
-   <div id="gameBox">
-       <p id="question" style="font-size: 24px; margin: 20px 0;"></p>
-       <input type="text" id="answer" placeholder="Enter WRONG answer here">
-       <br>
-       <button id="submit">Submit Answer</button>
-       <p id="timer" style="font-size: 20px; color: #ff9800;"></p>
-       <p id="result"></p>
-   </div>
+            <br>
+             <!-- Button to submit the answer -->
+            <button id="submit">Submit Answer</button>
 
+             <!-- Timer display -->
+            <p id="timer" style="font-size: 20px; color: #ff9800;"></p>
 
+             <!-- Result of the answer submission (correct/wrong) will be shown here -->
+            <p id="result"></p>
+
+      </div>
+
+  <!-- Dodge game section -->
    <div id="dodgeGame">
+        <!-- Instruction at the top of dodge game -->
        <div style="position: absolute; top: 10px; left: 20px; color: white; font-size: 18px; z-index: 100;">
            Dodge 10 red blocks to continue!
        </div>
