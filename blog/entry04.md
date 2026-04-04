@@ -2,7 +2,8 @@
 ##### 3/15/26
 
 ## Content
-So yeah, I haven’t really done a ton on my Freedom Project yet, but I’ve been planning a lot and actually figured out some of the game mechanics. I’ve got a clear idea of how it’s supposed to work, and I even built the block-dodging game itself, I just haven’t put it into my code yet, which I need to figure out next.
+So yeah, I haven’t really done a ton on my Freedom Project yet, but I’ve been planning a lot and actually figured out some of the game mechanics. I’ve got a clear idea of how it’s supposed to work, and I even built the block-dodging game itself, I just haven’t put it into my code yet, which I need to figure out next. In addition to using [Kaboom.js](https://kaboomjs.com/) documentation and other online resources, I also used [W3Schools](https://www.w3schools.com/)
+ to refresh my memory on HTML, CSS, and JavaScript. Since we learned those concepts a while back, W3Schools helped me quickly recall some of the syntax and examples I needed to set up the HTML structure, connect JavaScript to the page, and make sure everything was running smoothly. It was a good reminder of the basics, and I was able to use it as a quick reference when I ran into things I hadn’t touched in a while.
 
 Here’s where I’m at right now. My HTML is super basic,it just sets up the welcome screen, instructions, and a “Start Game” button. Here’s what it looks like:
 
@@ -141,13 +142,17 @@ It’s kind of like catching coins in a piggy bank, and it really helped me get 
 
 Even though it’s simple, it gave me a good idea of how to handle player movement and falling objects for my Freedom Project mini-games.
 
- I learned kaboom from the [Kaboom website](https://kaboomjs.com/) and everything I learned and made is in my [learning log](https://github.com/farzonak0587/sep11-freedom-project/blob/main/tool/learning-log.md). 
+ I learned kaboom from the [Kaboom website](https://kaboomjs.com/) and everything I learned and made is in my [learning log](https://github.com/farzonak0587/sep11-freedom-project/blob/main/tool/learning-log.md).  
 
 ## Engineering Design Process: 
 
 Right now, I’m working on my Freedom Project and making progress toward my MVP. I have the basic HTML set up with a welcome screen, instructions, and a Start Game button. I’ve also built the block-dodging game in Kaboom.js, but it’s not connected to the HTML or the question system yet.  
 
 At this stage, I’m focused on figuring out how to get the main parts to work together. The goal is to have the player answer a question and then play the mini-game if they get it wrong. I’m working on each part separately and testing it before combining everything.  
+
+As I go, I’ll need to make sure the game flows well like making sure the question part connects smoothly with the mini-game and that the score updates correctly after dodging blocks or answering. I’ll also be testing how the game reacts when things happen out of order, just to make sure it doesn’t glitch or crash.
+
+Once I’ve got everything working, I want to add some cool details, like effects or animations, to make the game more fun. I’m also thinking about adding a way for players to restart the game and track their best score so they can try to beat it next time. Overall, I’m taking it step by step, making sure each part works before I bring it all together.
 
 ## Skills
 

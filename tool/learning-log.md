@@ -1429,6 +1429,181 @@ onUpdate(() {
     })
 })
 ```
+-------------------------------------------------------------------------------------------------------------------------------------
+### 3-16-2026
+
+`wait(n: number, action?: () => void) => TimerController `
+
+**What it does:**
+This runs your callback once after n seconds of game time have passed. It’s useful for delayed actions like explosions, showing messages, or spawning enemies later.
+
+**How it works:**
+When you call wait, the engine schedules your function on an internal timer and, after the delay, calls it once and then stops. The returned controller can be used to cancel the timer before it fires.
+
+**Example:**
+``` js
+js
+// 3 seconds until explosion! Runnn!
+wait(3, () => {
+    explode();
+});
+
+// wait() can also be awaited inside async functions
+async function startRound() {
+    await wait(1);        // pause this function for 1 second
+    spawnEnemies();       // then do something
+}
+```
+-------------------------------------------------------------------------------------------------------------------------------------
+
+### 3-17-2026
+
+` loop(t: number, action: () => void) => EventController`
+
+**What it does:**
+This runs your callback every t seconds. It’s useful for repeated behaviors like spawning enemies, ticking a countdown, or updating something on a fixed interval.
+
+**How it works:**
+When you call loop, the engine schedules your function to run repeatedly: once on the next frame (typically) and then again every t seconds. The returned controller lets you stop the loop when you no longer need it.
+
+**Example:**
+
+``` js
+// Spawn a butterfly at a random position every 1 second
+const butterflyLoop = loop(1, () => {
+    add([
+        sprite("butterfly"),
+        pos(rand(vec2(width(), height()))),
+        area(),
+        "friend",
+    ]);
+});
+
+// Later, if you want to stop spawning butterflies:
+// butterflyLoop.cancel();
+```
+Here, a new butterfly is added once per second at a random position until you cancel the loop.
+
+-------------------------------------------------------------------------------------------------------------------------------------
+### 3-18-2026
+
+`play(src, options) => AudioPlay`
+
+**What it does:**
+Plays a sound or music track. Returns a handle `(AudioPlay)` that lets you control playback (pause, stop, change speed, volume, etc.). Can be used for sound effects or background music.
+
+**How it works:**
+
+-  `src`: the name of a loaded sound or music asset.
+options can include volume, loop, and speed.
+- You can store the return value in a variable to pause or change speed later.
+
+**Example** – Play a “coin pickup” sound and speed it up:
+
+``` js
+// Play coin sound
+const coinSound = play("coin");
+
+// Make it play faster (funny, chipmunk-style effect)
+coinSound.speed = 1.5;
+
+// Pause it after 1 second
+wait(1, () => coinSound.paused = true);
+```
+Explanation:
+- Plays a “coin” sound.
+- Immediately speeds it up to 1.5x.
+- After 1 second, pauses the sound.
+- Useful for controlling sound effects dynamically in a game.
+
+-------------------------------------------------------------------------------------------------------------------------------------
+### 3-19-2026
+`burp(options?: AudioPlayOpt) => AudioPlay`
+
+**What it does:**
+Plays a “burp” sound effect built into Kaboom. Works like play(), and you can adjust volume, speed, or looping.
+
+**Example** – Play burp slowly and quietly when an enemy is defeated:
+``` js
+// Enemy defeated
+function onEnemyDefeat() {
+    burp({ volume: 0.2, speed: 0.6 });
+}
+
+// Trigger it for demonstration
+onEnemyDefeat();
+```
+**Explanation**:
+- Plays the burp sound at 20% volume and 60% speed.
+- Makes it sound “slower and quieter” — good for comic effect.
+
+
+`volume(v?: number) => number`
+
+**What it does:**
+Gets or sets the global volume of all audio in the game.
+- volume() → returns current volume (number between 0–1)
+- volume(0.5) → sets everything to half volume
+
+**Example** – Gradually fade out all game audio:
+``` js
+// Starting at full volume
+volume(1.0);
+
+// Every 0.5 seconds, reduce volume by 0.1
+let fade = loop(0.5, () => {
+    const current = volume();
+    if (current > 0) {
+        volume(current - 0.1);
+    } else {
+        fade.cancel(); // stop the loop when volume hits 0
+    }
+});
+```
+**Explanation**:
+- Starts at full volume.
+- Uses a repeating loop to gradually decrease volume until silence.
+- Demonstrates controlling all game audio dynamically.
+
+-------------------------------------------------------------------------------------------------------------------------------------
+### 3-20-2026
+
+**Combining all three functions**
+
+**Example** – Background music + interactive sound effect + volume control:
+``` js
+// Play looping background music quietly
+const bgMusic = play("ambient", { volume: 0.3, loop: true });
+
+// Press key to play a special sound effect
+onKeyPress("e", () => {
+    play("explosion", { volume: 0.8 });
+});
+
+// Press key to toggle mute
+onKeyPress("m", () => {
+    if (volume() > 0) {
+        volume(0);
+    } else {
+        volume(0.5);
+    }
+});
+
+// Play a burp for fun after 3 seconds
+wait(3, () => burp({ volume: 0.5, speed: 1 }));
+```
+
+**Explanation**:
+
+- Background music loops quietly.
+- Press e to trigger a sound effect.
+- Press m to toggle mute/unmute.
+- Plays a burp automatically after 3 seconds.
+- Shows how play(), burp(), and volume() can interact.
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+
 
 
 <!--
