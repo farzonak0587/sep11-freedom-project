@@ -29,7 +29,24 @@
 
    <p><strong>Rules:</strong> Answer <em>WRONG ONLY</em>. Correct = Lose. If you answer with the wrong answer, dodge 10 blocks to go to the next round!</p>
 
+   <div id="score">Score: 0</div>
 
+
+   <div id="gameBox">
+       <p id="question" style="font-size: 24px; margin: 20px 0;"></p>
+       <input type="text" id="answer" placeholder="Enter WRONG answer here">
+       <br>
+       <button id="submit">Submit Answer</button>
+       <p id="timer" style="font-size: 20px; color: #ff9800;"></p>
+       <p id="result"></p>
+   </div>
+
+
+   <div id="dodgeGame">
+       <div style="position: absolute; top: 10px; left: 20px; color: white; font-size: 18px; z-index: 100;">
+           Dodge 10 red blocks to continue!
+       </div>
+   </div>
 
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
