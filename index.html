@@ -17,6 +17,21 @@
            margin: 0;
            padding: 20px;
        }
+       input, button {
+           padding: 12px;
+           margin: 10px;
+           font-size: 16px;
+           border: none;
+           border-radius: 8px;
+       }
+       button {
+           background: #4CAF50;
+           color: white;
+           cursor: pointer;
+       }
+       button:hover {
+           background: #45a049;
+       }
 
         </style>
 
@@ -28,7 +43,10 @@
          <h1>Wrong Answers Only Game</h1>
 
         <!-- Game rules -->
-         <p><strong>Rules:</strong> Answer <em>WRONG ONLY</em>. Correct = Lose. If you answer with the wrong answer, dodge 10 blocks to go to the next round!</p>
+        <ul> <strong>Rules:</strong> Answer <em>WRONG ONLY</em>. </ul>
+            <ul> Answer with the correct answer = Lose.</ul>
+            <ul> Answer with the wrong answer, then: </ul>
+            <ul> dodge 10 blocks to go to the next round! </ul>
 
         <!-- Score display -->
          <div id="score">Score: 0</div>
