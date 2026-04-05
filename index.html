@@ -66,6 +66,25 @@
         <!-- <script src="script.js"></script> -->
         <script type="module">
             // JS
+             import kaboom from "https://unpkg.com/kaboom@3000.0.0/dist/kaboom.mjs"
+
+
+            // === QUIZ GAME ===
+            const questionEl = document.querySelector("#question")
+            const inputEl = document.querySelector("#answer")
+            const submitBtn = document.querySelector("#submit")
+            const timerEl = document.querySelector("#timer")
+            const resultEl = document.querySelector("#result")
+            const dodgeGameEl = document.querySelector("#dodgeGame")
+            const scoreEl = document.querySelector("#score")
+
+
+            const questions = [
+                { q: "What is 4 + 4?", a: 8, type: "number" },
+                { q: "What is 9 - 2?", a: 7, type: "number" },
+                { q: "What is 3 x 3?", a: 9, type: "number" },
+                { q: "What is 15 / 3?", a: 5, type: "number" }
+            ]
 
 
 
