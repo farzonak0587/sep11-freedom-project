@@ -88,6 +88,8 @@
 
 
             // === QUIZ GAME ===
+
+            // Select DOM elements for manipulation
             const questionEl = document.querySelector("#question")
             const inputEl = document.querySelector("#answer")
             const submitBtn = document.querySelector("#submit")
@@ -97,6 +99,11 @@
             const scoreEl = document.querySelector("#score")
 
 
+            // Array of question objects for the quiz
+            // Each object has:
+            // - q: the question text
+            // - a: the correct answer
+            // - type: the expected type of answer (number in this case)
             const questions = [
                 { q: "What is 4 + 4?", a: 8, type: "number" },
                 { q: "What is 9 - 2?", a: 7, type: "number" },
