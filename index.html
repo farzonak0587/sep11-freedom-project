@@ -110,7 +110,7 @@
                 { q: "What is 3 x 3?", a: 9, type: "number" },
                 { q: "What is 15 / 3?", a: 5, type: "number" }
             ]
-            
+
                 let currentIndex = 0
                 let timeLeft = 3
                 let timer
@@ -125,6 +125,23 @@
                 function startGame() {
                     currentIndex = 0
                     score = 0
+                    
+
+
+
+                      //  Start NEW timer
+                    timer = setInterval(()=> {
+                        timeLeft--
+                        timerEl.innerHTML = "Time: " + timeLeft
+
+
+                        if (timeLeft <= 0) {
+                            clearInterval(timer);
+                            lose("Time ran out!");
+                        }
+                    }, 1000);
+                }
+
 
 
 
