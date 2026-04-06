@@ -111,49 +111,49 @@
                 { q: "What is 15 / 3?", a: 5, type: "number" }
             ]
 
-                let currentIndex = 0
-                let timeLeft = 3
-                let timer
-                let score = 0
+                let currentIndex = 0  // which question we're on
+                let timeLeft = 3      // how much time left for this question
+                let timer             // stores the countdown timer so we can stop it
+                let score = 0         // player's score
 
 
                 function updateScore() {
-                    scoreEl.innerHTML = "Score:" + score
+                    scoreEl.innerHTML = "Score:" + score   // shows the score
                 }
 
 
                 function startGame() {
-                    currentIndex = 0
-                    score = 0
-                    updateScore()
-                    loadQuestion()
+                    currentIndex = 0  // go back to first question
+                    score = 0         // reset score
+                    updateScore()     // show score on screen
+                    loadQuestion()    // show the first question
                 }
 
 
                 function loadQuestion() {
                     //
-                    clearInterval(timer)
+                    clearInterval(timer) // stop the old timer
 
-                    timeLeft = 3
+                    timeLeft = 3        // reset time for different question
 
-                    let current = questions[currentIndex]
+                    let current = questions[currentIndex] // egt the question we're on
 
 
-                    questionEl.innerHTML = current.question
-                    inputEl.value = ""
-                    resultEl.innerHTML = ""
-                    timerEl.innerHTML = "Time: " + timeLeft
-                    
+                    questionEl.innerHTML = current.question     // show the question
+                    inputEl.innerHTML = ""                       // clear answer box
+                    resultEl.innerHTML = ""                      // clear old results
+                    timerEl.innerHTML = "Time: " + timeLeft      // show timer
+
 
                     //  Start NEW timer
                     timer = setInterval(()=> {
-                        timeLeft--
+                        timeLeft--                 // count down by 1 second
                         timerEl.innerHTML = "Time: " + timeLeft
 
 
-                        if (timeLeft <= 0) {
-                            clearInterval(timer);
-                            lose("Time ran out!");
+                        if (timeLeft <= 0) {         // if time's up
+                            clearInterval(timer);    // stop the timer
+                            alert("Time ran out!");   // call the lose function
                         }
                     }, 1000);
                 }
