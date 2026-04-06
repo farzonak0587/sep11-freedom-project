@@ -125,11 +125,27 @@
                 function startGame() {
                     currentIndex = 0
                     score = 0
+                    updateScore()
+                    loadQuestion()
+                }
+
+
+                function loadQuestion() {
+                    //
+                    clearInterval(timer)
+
+                    timeLeft = 3
+
+                    let current = questions[currentIndex]
+
+
+                    questionEl.innerHTML = current.question
+                    inputEl.value = ""
+                    resultEl.innerHTML = ""
+                    timerEl.innerHTML = "Time: " + timeLeft
                     
 
-
-
-                      //  Start NEW timer
+                    //  Start NEW timer
                     timer = setInterval(()=> {
                         timeLeft--
                         timerEl.innerHTML = "Time: " + timeLeft
