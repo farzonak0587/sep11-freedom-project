@@ -110,6 +110,21 @@
                 { q: "What is 3 x 3?", a: 9, type: "number" },
                 { q: "What is 15 / 3?", a: 5, type: "number" }
             ]
+            
+                let currentIndex = 0
+                let timeLeft = 3
+                let timer
+                let score = 0
+
+
+                function updateScore() {
+                    scoreEl.innerHTML = "Score:" + score
+                }
+
+
+                function startGame() {
+                    currentIndex = 0
+                    score = 0
 
 
 
