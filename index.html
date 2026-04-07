@@ -177,7 +177,7 @@
 
                 let userInput = str.slice(start, end)
                 let current = questions[currentIndex]
-                
+
 
                 if (current.type === "number") {
                     if (userInput === "" || isNaN(userInput)) {
@@ -189,6 +189,27 @@
 
                 let answer = Number(userInput)
                 clearInterval(timer)
+
+                if (answer === current.a) {
+               alert("Correct answer... you lose!")
+               return
+           }
+
+        function lose(message) {
+           alert(message)
+           location.reload()
+       }
+
+
+       function win() {
+           alert("You survived all questions! Final Score: " + score)
+           location.reload()
+       }
+
+
+
+
+
 
 
 
