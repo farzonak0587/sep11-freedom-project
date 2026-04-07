@@ -139,7 +139,7 @@
                     let current = questions[currentIndex] // egt the question we're on
 
 
-                    questionEl.innerHTML = current.question     // show the question
+                    questionEl.innerHTML = current.q     // show the question
                     inputEl.innerHTML = ""                       // clear answer box
                     resultEl.innerHTML = ""                      // clear old results
                     timerEl.innerHTML = "Time: " + timeLeft      // show timer
@@ -157,6 +157,27 @@
                         }
                     }, 1000);
                 }
+
+
+                
+                submitBtn.addEventListener("click", () => {
+                let str = inputEl.value
+
+                // Remove leading spaces
+                let start = 0;
+                while (str[start] === " ") {
+                    start++
+                }
+
+
+                let end = str.length;
+                while (str[end - 1] === " ") {
+                    end--
+                }
+
+                let userInput = str.slice(start, end)
+                let current = questions[currentIndex]
+
 
 
 
