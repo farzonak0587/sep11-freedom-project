@@ -159,7 +159,7 @@
                 }
 
 
-                
+
                 submitBtn.addEventListener("click", () => {
                 let str = inputEl.value
 
@@ -177,6 +177,18 @@
 
                 let userInput = str.slice(start, end)
                 let current = questions[currentIndex]
+                
+
+                if (current.type === "number") {
+                    if (userInput === "" || isNaN(userInput)) {
+                        alert("Enter a valid number!")
+                        return
+                    }
+                }
+
+
+                let answer = Number(userInput)
+                clearInterval(timer)
 
 
 
