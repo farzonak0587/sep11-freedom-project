@@ -32,6 +32,12 @@
        button:hover {
            background: #45a049;
        }
+       #gameBox {
+           margin-top: 20px;
+           max-width: 600px;
+           margin-left: auto;
+           margin-right: auto;
+       }
 
         </style>
 
@@ -159,61 +165,84 @@
                 }
 
 
-
+                // when you click the submit button
                 submitBtn.addEventListener("click", () => {
+                // grab what the player typed
                 let str = inputEl.value
 
-                // Remove leading spaces
+                // remove spaces that are in the front
                 let start = 0;
                 while (str[start] === " ") {
                     start++
                 }
 
-
+                // remove spaces that are in the end
                 let end = str.length;
                 while (str[end - 1] === " ") {
                     end--
                 }
 
+                // trimmed input from the user
                 let userInput = str.slice(start, end)
+                // grab the current question info
                 let current = questions[currentIndex]
 
 
+                 // check if it's supposed to be a number
                 if (current.type === "number") {
+                     // if it's empty or not a number, alert to type a real number
                     if (userInput === "" || isNaN(userInput)) {
                         alert("Enter a valid number!")
                         return
                     }
                 }
 
-
+                 // turn the input into a number
                 let answer = Number(userInput)
+                // stop the timer because they answered
                 clearInterval(timer)
 
+
+                // if they actually typed the right answer, they lose
                 if (answer === current.a) {
-               alert("Correct answer... you lose!")
+               lose("Correct answer... you lose!")
                return
            }
 
+            // they got it wrong, add 2 points
+            score += 2
+           updateScore()
+           // if they answer with a wrong answer
+           resultEl.innerHTML = "Wrong! Good job (+2 points) - Now dodge 10 blocks!";
+
+
+           // start the dodge game
+            // this code runs after user finishes dodging
+           startDodgeGame(() => {
+                // go to the next question
+               currentIndex++
+
+               // if no questions left, they win
+               if (currentIndex >= questions.length) {
+                   win()
+                // otherwise, show the next question
+               } else {
+                   setTimeout(loadQuestion, 500)
+               }
+           })
+       })
+
+       // what happens when they lose
         function lose(message) {
-           alert(message)
-           location.reload()
+           alert(message) // show the message
+           location.reload()  // restart the game
        }
 
-
+       // what happens when they win
        function win() {
-           alert("You survived all questions! Final Score: " + score)
-           location.reload()
+           alert("You survived all questions! Final Score: " + score)  // show the win message and score
+           location.reload() // restart the game
        }
-
-
-
-
-
-
-
-
-
 
 
 
