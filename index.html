@@ -261,6 +261,23 @@
         dodgeGameEl.appendChild(k.canvas)
         k.canvas.focus()
 
+        const PLAYER_SPEED = 280
+        const ENEMY_SPEED = 320
+        const WIN_GOAL = 10
+        let dodged = 0
+        let gameOver = false
+
+
+        const player = k.add([
+            k.rect(40, 40),
+            k.color(0, 140, 255),
+            k.pos(k.width() / 2, k.height() - 80),
+            k.area(),
+            k.anchor("center"),
+            "player"
+        ])
+
+
 
 
 
