@@ -288,6 +288,20 @@
         dodgedCounter.text = `Dodged: ${dodged}`
     }
 
+    
+    onKeyDown("left", () => {
+        if (!gameOver) player.move(-PLAYER_SPEED, 0);
+    })
+    onKeyDown("right", () => {
+        if (!gameOver) player.move(PLAYER_SPEED, 0);
+    })
+    onKeyDown("up", () => {
+        if (!gameOver) player.move(0, -PLAYER_SPEED);
+    })
+    onKeyDown("down", () => {
+        if (!gameOver) player.move(0, PLAYER_SPEED);
+    })
+
 
 
 
