@@ -247,58 +247,58 @@
 
        // === DODGE GAME ===
         function startDodgeGame(afterQuestion) {
-        dodgeGameEl.style.display = "block"
+        dodgeGameEl.style.display = "block"  // show the dodge game container
 
-        const k = kaboom({
-            width: Math.min(800, window.innerWidth - 40),
-            height: 500,
+        const k = kaboom({ // start Kaboom.js
+            width: Math.min(800, window.innerWidth - 40), // canvas width fits screen max 800
+            height: 500, // fixed canvas height
             root: dodgeGameEl,
-            canvas: document.createElement("canvas"),
+            canvas: document.createElement("canvas"), // create new canvas element
             debug: true,
-            background: [10, 10, 30]
+            background: [10, 10, 30] // dark blue background
         })
 
-        dodgeGameEl.appendChild(k.canvas)
-        k.canvas.focus()
+        dodgeGameEl.appendChild(k.canvas) // add canvas to the HTML
+        k.canvas.focus() // focus so keyboard controls work
 
-        const PLAYER_SPEED = 280
-        const ENEMY_SPEED = 320
-        const WIN_GOAL = 10
-        let dodged = 0
-        let gameOver = false
+        const PLAYER_SPEED = 280  // how fast player moves
+        const ENEMY_SPEED = 320  // how fast enemies fall
+        const WIN_GOAL = 10     // how many blocks to dodge to win
+        let dodged = 0         // start with 0 dodged
+        let gameOver = false   // stops game when true
 
 
-        const player = k.add([
-            k.rect(40, 40),
-            k.color(0, 140, 255),
-            k.pos(k.width() / 2, k.height() - 80),
-            k.area(),
+        const player = k.add([ // create the player
+            k.rect(40, 40), // square
+            k.color(0, 140, 255), // blue color
+            k.pos(k.width() / 2, k.height() - 80), // start near bottom center
+            k.area(),   // make it collide with enemies
             k.anchor("center"),
-            "player"
+            "player"  // tag for collision events
         ])
 
-        const dodgedCounter = k.add([
-        k.text(`Dodged: 0`, { size: 20 }),
-        k.pos(k.width() / 2, 30),
-        k.anchor("center"),
-        k.color(255, 255, 255)
+        const dodgedCounter = k.add([   // text counter for dodged blocks
+        k.text(`Dodged: 0`, { size: 20 }),  // start at 0
+        k.pos(k.width() / 2, 30),   // top center of screen
+        k.anchor("center"),       // center alignment
+        k.color(255, 255, 255)   // white text
     ])
 
-    function updateDodgedCounter() {
-        dodgedCounter.text = `Dodged: ${dodged}`
+    function updateDodgedCounter() {  // updates the counter
+        dodgedCounter.text = `Dodged: ${dodged}`  // display current dodged number
     }
 
-    
-    onKeyDown("left", () => {
+
+    onKeyDown("left", () => {  // move left while holding left arrow
         if (!gameOver) player.move(-PLAYER_SPEED, 0);
     })
-    onKeyDown("right", () => {
+    onKeyDown("right", () => { // move right while holding right arrow
         if (!gameOver) player.move(PLAYER_SPEED, 0);
     })
-    onKeyDown("up", () => {
+    onKeyDown("up", () => { // move up while holding up arrow
         if (!gameOver) player.move(0, -PLAYER_SPEED);
     })
-    onKeyDown("down", () => {
+    onKeyDown("down", () => { // move down while holding down arrow
         if (!gameOver) player.move(0, PLAYER_SPEED);
     })
 
