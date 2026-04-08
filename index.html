@@ -146,7 +146,7 @@
 
 
                     questionEl.innerHTML = current.q     // show the question
-                    inputEl.innerHTML = ""                       // clear answer box
+                    inputEl.value = ""                       // clear answer box
                     resultEl.innerHTML = ""                      // clear old results
                     timerEl.innerHTML = "Time: " + timeLeft      // show timer
 
@@ -245,9 +245,30 @@
        }
 
 
+       // === DODGE GAME ===
+        function startDodgeGame(afterQuestion) {
+        dodgeGameEl.style.display = "block"
+
+        const k = kaboom({
+            width: Math.min(800, window.innerWidth - 40),
+            height: 500,
+            root: dodgeGameEl,
+            canvas: document.createElement("canvas"),
+            debug: true,
+            background: [10, 10, 30]
+        })
+
+        dodgeGameEl.appendChild(k.canvas)
+        k.canvas.focus()
 
 
 
+
+
+    }
+
+    // Start the game
+    startGame()
         </script>
     </body>
 </html>
