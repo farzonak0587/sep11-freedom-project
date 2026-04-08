@@ -277,6 +277,17 @@
             "player"
         ])
 
+        const dodgedCounter = k.add([
+        k.text(`Dodged: 0`, { size: 20 }),
+        k.pos(k.width() / 2, 30),
+        k.anchor("center"),
+        k.color(255, 255, 255)
+    ])
+
+    function updateDodgedCounter() {
+        dodgedCounter.text = `Dodged: ${dodged}`
+    }
+
 
 
 
