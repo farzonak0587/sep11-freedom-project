@@ -38,6 +38,22 @@
            margin-left: auto;
            margin-right: auto;
        }
+       #dodgeGame {
+           display: none;
+           width: 100%;
+           max-width: 800px;
+           height: 500px;
+           background: #000;
+           margin: 30px auto;
+           border-radius: 16px;
+           border: 3px solid #444;
+           position: relative;
+       }
+       #score {
+           font-size: 24px;
+           font-weight: bold;
+           margin: 20px 0;
+       }
 
         </style>
 
@@ -146,7 +162,7 @@
 
 
                     questionEl.innerHTML = current.q     // show the question
-                    inputEl.value = ""                       // clear answer box
+                    inputEl.innerHTML = ""                       // clear answer box
                     resultEl.innerHTML = ""                      // clear old results
                     timerEl.innerHTML = "Time: " + timeLeft      // show timer
 
@@ -303,12 +319,22 @@
     })
 
 
-
-
-
-
+    function spawnEnemy() {
+        if (gameOver) return;
+        k.add([
+            k.rect(40, 40),
+            k.color(255, 0, 0),
+            k.pos(k.rand(40, k.width() - 40), -40),
+            k.area(),
+            k.move(k.vec2(0, 1), ENEMY_SPEED),
+            k.offscreen({ destroy: true }),
+            "enemy"
+        ])
     }
 
+    k.loop(0.7, spawnEnemy)
+
+}
     // Start the game
     startGame()
         </script>
