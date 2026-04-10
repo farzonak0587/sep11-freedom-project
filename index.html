@@ -341,14 +341,34 @@
         if (dodged >= WIN_GOAL) {
             gameOver = true;
             k.add([
-                k.text("WIN! Next Question...", { size: 28 }),
+                k.text(" WIN! Next Question...", { size: 28 }),
                 k.pos(k.center()),
                 k.anchor("center"),
                 k.color(50, 255, 50)
             ])
+
+
+             setTimeout(() => {
+                k.destroyAll()
+                dodgeGameEl.style.display = "none"
+                afterQuestion()
+            }, 1500)
         }
     })
 
+
+    player.onCollide("enemy", (enemy) => {
+        if (gameOver) return
+        k.destroy(enemy)
+        gameOver = true
+        k.add([
+            k.text("GAME OVER", { size: 32 }),
+            k.pos(k.center()),
+            k.anchor("center"),
+            k.color(255, 50, 50)
+        ]);
+        setTimeout(() => location.reload(), 2000)
+    })
 }
 
     // Start the game
