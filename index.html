@@ -319,55 +319,58 @@
     })
 
 
+    // function to make the red blocks fall from the top
     function spawnEnemy() {
-        if (gameOver) return;
+        if (gameOver) return;  // if the game's over, stop spawning blocks
         k.add([
-            k.rect(40, 40),
-            k.color(255, 0, 0),
+            k.rect(40, 40), // the block is a 40x40 square
+            k.color(255, 0, 0),  // make it red
             k.pos(k.rand(40, k.width() - 40), -40),
-            k.area(),
-            k.move(k.vec2(0, 1), ENEMY_SPEED),
-            k.offscreen({ destroy: true }),
+            k.area(), // gives it a hitbox so it can collide
+            k.move(k.vec2(0, 1), ENEMY_SPEED), // makes it fall down
+            k.offscreen({ destroy: true }), // destroy it if it goes off screen
             "enemy"
         ])
     }
 
+    // spawn an enemy every 0.7 seconds
     k.loop(0.7, spawnEnemy)
 
+    // when an enemy is destroyed (like when it goes offscreen)
     k.on("destroy", "enemy", () => {
-        if (gameOver) return
-        dodged++;
-        updateDodgedCounter()
-        if (dodged >= WIN_GOAL) {
+        if (gameOver) return // don't do anything if game is already over
+        dodged++; // count it as dodged
+        updateDodgedCounter() // update the counter on screen
+        if (dodged >= WIN_GOAL) { // if dodged enough blocks, player wins
             gameOver = true;
             k.add([
-                k.text(" WIN! Next Question...", { size: 28 }),
+                k.text(" WIN! Next Question...", { size: 28 }), // show win message
                 k.pos(k.center()),
                 k.anchor("center"),
-                k.color(50, 255, 50)
+                k.color(50, 255, 50)  // green text
             ])
 
 
              setTimeout(() => {
-                k.destroyAll()
-                dodgeGameEl.style.display = "none"
-                afterQuestion()
+                k.destroyAll() // clear the game screen
+                dodgeGameEl.style.display = "none"   // hide the dodge game div
+                afterQuestion()    // go to next question
             }, 1500)
         }
     })
 
-
+    // when the player hits a red block
     player.onCollide("enemy", (enemy) => {
         if (gameOver) return
-        k.destroy(enemy)
-        gameOver = true
+        k.destroy(enemy) // remove the block they hit
+        gameOver = true  // mark the game as over
         k.add([
-            k.text("GAME OVER", { size: 32 }),
+            k.text("GAME OVER", { size: 32 }),  // show game over message
             k.pos(k.center()),
             k.anchor("center"),
-            k.color(255, 50, 50)
+            k.color(255, 50, 50)  // make it red
         ]);
-        setTimeout(() => location.reload(), 2000)
+        setTimeout(() => location.reload(), 2000)  // reload page after 2 seconds
     })
 }
 
