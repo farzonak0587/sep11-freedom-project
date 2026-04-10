@@ -334,7 +334,23 @@
 
     k.loop(0.7, spawnEnemy)
 
+    k.on("destroy", "enemy", () => {
+        if (gameOver) return
+        dodged++;
+        updateDodgedCounter()
+        if (dodged >= WIN_GOAL) {
+            gameOver = true;
+            k.add([
+                k.text("WIN! Next Question...", { size: 28 }),
+                k.pos(k.center()),
+                k.anchor("center"),
+                k.color(50, 255, 50)
+            ])
+        }
+    })
+
 }
+
     // Start the game
     startGame()
         </script>
