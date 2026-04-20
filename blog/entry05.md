@@ -50,11 +50,14 @@ For the Beyond MVP, my main focus is definitely going to be CSS. Right now, the 
 So, for my Beyond MVP, I’ll be focusing on making the game more fun and enjoyable by improving the design and visuals. The goal is to make it not just a fun game to play, but also something that looks and feels awesome while playing.
 
 ## Skills
+### Problem-Solving
 
+This project really made me think more when things didn’t work right. Like with the timer, it wasn’t resetting the way I wanted at first, and the transition between the quiz and the dodge game was kinda messy. I had to keep testing small parts of my code to figure out what was wrong instead of just guessing. Breaking everything into smaller pieces actually helped a lot because it made the problems easier to fix instead of trying to deal with everything at once.
 
+### Debugging
 
+I definitely got better at debugging during this project. There were a lot of small bugs, especially with the collision detection in the dodge game. Sometimes the player would hit a block and nothing would happen, which was really annoying. I had to go through my code, test different parts, and fix the logic until it worked correctly. It taught me to be more patient and actually read through my code carefully.
 
-[Home](../README.md)
 [Previous](entry04.md) | [Next](entry06.md)
 
 [Home](../README.md)
