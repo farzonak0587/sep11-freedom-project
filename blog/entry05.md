@@ -58,6 +58,9 @@ This project really made me think more when things didn’t work right. Like wit
 
 I definitely got better at debugging during this project. There were a lot of small bugs, especially with the collision detection in the dodge game. Sometimes the player would hit a block and nothing would happen, which was really annoying. I had to go through my code, test different parts, and fix the logic until it worked correctly. It taught me to be more patient and actually read through my code carefully.
 
+### Time Management
+I only had about a week during spring break to finish this, so I had to be smart with my time. I didn’t try to make everything look amazing right away,I focused on getting the game to actually work first. I made sure the quiz, timer, and dodge game all functioned before worrying about design. That helped me stay on track and actually finish my MVP instead of running out of time.
+
 [Previous](entry04.md) | [Next](entry06.md)
 
 [Home](../README.md)
