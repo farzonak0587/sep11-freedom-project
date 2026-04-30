@@ -31,9 +31,7 @@ I played around with the block speeds to make sure it was challenging but not to
 By now, the game was almost there, but I had to polish it a bit. I had to fix some bugs, like making sure the "game over" screen showed up when you hit a red block. It was a little tricky getting the collision detection right. I also made sure that after you dodged 10 blocks, you’d see a “You Win!” message. I wanted the whole thing to flow smoothly, so I worked on making the transitions between the quiz and dodge game. After you win the dodge round, it would automatically show the next question.
 
 
-[Link to the Game MVP](https://farzonak0587.github.io/sep11-freedom-project/)
-
-[Link to the code of my MVP Game](https://github.com/farzonak0587/sep11-freedom-project/blob/main/index.html) 
+My MVP game is available at [Link to the Game MVP](https://farzonak0587.github.io/sep11-freedom-project/), while all the the code can be found at [Link to the code of my MVP Game](https://github.com/farzonak0587/sep11-freedom-project/blob/main/index.html). 
 
 
  ### Learning Kaboom
