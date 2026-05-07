@@ -130,13 +130,25 @@
                 { q: "What is 4 + 4?", a: 8, type: "number" },
                 { q: "What is 9 - 2?", a: 7, type: "number" },
                 { q: "What is 3 x 3?", a: 9, type: "number" },
-                { q: "What is 15 / 3?", a: 5, type: "number" }
+                { q: "What is 15 / 3?", a: 5, type: "number" },
+                { q: "What is 5 + 3?", a: 8, type: "number" },
+                { q: "What is 10 - 4?", a: 6, type: "number" },
+                { q: "What is 7 - 2?", a: 5, type: "number" },
+                { q: "What is 3 x 3?", a: 9, type: "number" },
+                { q: "What is 4 x 2?", a: 8, type: "number" },
+                { q: "What is 12 ÷ 3?", a: 4, type: "number" },
+                { q: "What is 9 ÷ 3?", a: 3, type: "number" },
+                { q: "What is 6 + 7?", a: 13, type: "number" },
+                { q: "What is 8 - 3?", a: 5, type: "number" },
             ]
 
                 let currentIndex = 0  // which question we're on
                 let timeLeft = 3      // how much time left for this question
                 let timer             // stores the countdown timer so we can stop it
                 let score = 0         // player's score
+                let lastAnswer = null // stores the previous question's answer so it can't be reused immediately
+                let timeUp = false // tracks if timer has ended (locks input)
+
 
 
                 function updateScore() {
@@ -162,7 +174,7 @@
 
 
                     questionEl.innerHTML = current.q     // show the question
-                    inputEl.innerHTML = ""                       // clear answer box
+                    inputEl.value = ""                       // clear answer box
                     resultEl.innerHTML = ""                      // clear old results
                     timerEl.innerHTML = "Time: " + timeLeft      // show timer
 
@@ -175,14 +187,25 @@
 
                         if (timeLeft <= 0) {         // if time's up
                             clearInterval(timer);    // stop the timer
-                            alert("Time ran out!");   // call the lose function
-                        }
-                    }, 1000);
+
+                             timeUp = true //lock the game (no more input allowed)
+
+                            inputEl.disabled = true // disable typing in the input box
+
+                            lose("You ran out of time!") // trigger lose function
+
+                            }
+
+                    }, 1000)
                 }
 
 
                 // when you click the submit button
                 submitBtn.addEventListener("click", () => {
+
+                let rawInput = inputEl.value // gets what the player typed
+
+
                 // grab what the player typed
                 let str = inputEl.value
 
@@ -200,8 +223,17 @@
 
                 // trimmed input from the user
                 let userInput = str.slice(start, end)
+
+                userInput = userInput.trim() // removes any extra spaces
+
                 // grab the current question info
                 let current = questions[currentIndex]
+
+                // 🚫 prevents player from reusing the previous question's answer
+                if (userInput === lastAnswer) {
+                    alert("You cannot reuse the previous question's answer!")
+                    return
+                }
 
 
                  // check if it's supposed to be a number
@@ -228,6 +260,11 @@
             // they got it wrong, add 2 points
             score += 2
            updateScore()
+
+           //  store this answer so it cannot be used in the next question
+            lastAnswer = userInput
+
+
            // if they answer with a wrong answer
            resultEl.innerHTML = "Wrong! Good job (+2 points) - Now dodge 10 blocks!";
 
